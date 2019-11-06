@@ -39,13 +39,14 @@ public class Main {
                     System.out.println("character: " + keyStrokeChar);
                 } else {
                     System.out.println("type: " + type);
-                    mask.changeDirectionOfMask(type); //this should be a call to Mask class
+                    //call the Mask class and see if the direction should change
+                    mask.changeDirectionOfMask(type);
                 }
             }
 
             continuePlaying = mask.moveMaskForward(terminal);
 
-
+            //check if the player wants to quit the game
             if (keyStrokeChar == Character.valueOf('q')) {
                 continuePlaying = false;
                 System.out.println("quit");

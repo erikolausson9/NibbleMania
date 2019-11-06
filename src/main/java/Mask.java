@@ -82,11 +82,15 @@ public class Mask {
 
         Thread.sleep(speed);
 
+        //get the position of the head of the mask
         int oldX = maskPositions.get(0).x;
         int oldY = maskPositions.get(0).y;
+
+
         int newX = oldX;
         int newY = oldY;
 
+        //set new position depending on the direction of the mask
         switch (direction){
             case RIGHT:
                 newX = oldX+1;
@@ -102,6 +106,7 @@ public class Mask {
 
         }
 
+        //add the new Mask position as the first element of the ArrayList
         maskPositions.add(0, new Position(newX, newY));
 
         printMask(terminal);

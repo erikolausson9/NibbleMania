@@ -9,8 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-
+    public static void main(String[] args) throws IOException, InterruptedException {
 
 
         //initialize terminal
@@ -23,42 +22,47 @@ public class Main {
         char keyStrokeChar = ' ';
         boolean continuePlaying = true;
 
+        //initialize mask
+        Mask mask = new Mask(new Position(10, 10), 100);
+        mask.printMask(terminal);
+
+
         //gameplay loop
-        while(continuePlaying){
+        while (continuePlaying) {
 
             //check for keystroke from user
             keyStroke = terminal.pollInput();
-            if(keyStroke!=null) {
+            if (keyStroke != null) {
                 KeyType type = keyStroke.getKeyType();
-                if(keyStroke.getCharacter()!=null) {
+                if (keyStroke.getCharacter() != null) {
                     keyStrokeChar = keyStroke.getCharacter();
                     System.out.println("character: " + keyStrokeChar);
-                }
-                else {
+                } else {
                     System.out.println("type: " + type);
-                    //changeDirectionOfMask(type); //this should be a call to Mask class
+                    mask.changeDirectionOfMask(type); //this should be a call to Mask class
                 }
             }
 
+            continuePlaying = mask.moveMaskForward(terminal);
 
 
-
-
-            if(keyStrokeChar==Character.valueOf('q')){
-                continuePlaying=false;
+            if (keyStrokeChar == Character.valueOf('q')) {
+                continuePlaying = false;
                 System.out.println("quit");
                 terminal.close();
             }
         }
 
-
-    public void generateNewNumber(int value, List<Mask> maskPositions, List<Walls> wallPositions ){
-        //Size 80 X 24
-
-        //Generate position for number
-        Position numberPosition = new Position(ThreadLocalRandom.current().nextInt(1, 79), ThreadLocalRandom.current().nextInt(1, 23));
-
     }
+
+//    public void generateNewNumber(int value, List<Mask> maskPositions, List<Walls> wallPositions ){
+//        //Size 80 X 24
+//
+//        //Generate position for number
+//        Position numberPosition = new Position(ThreadLocalRandom.current().nextInt(1, 79), ThreadLocalRandom.current().nextInt(1, 23));
+//
+//    }
+
 
 
 

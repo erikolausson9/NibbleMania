@@ -8,22 +8,44 @@ Lanterna
 
 Tid: 
 2,5 dagar
+
+Referens:
+https://www.youtube.com/watch?v=UmeKHtei0qo
 	
 PRODUCT BACKLOG:
--Skapa hinder
---Olika hinder för olika levels (antal?)
--Skapa mask 
---med funktion som växer x strl för varje siffra
---som "dör" om den åker in i hinder eller sig själv
--Skapa textrutor mellan nivåer
--Skapa textruta för game over
--Skapa möjlighet att välja nivå
--Musik (start + game over)
--Ljudeffekter
---när masken "dör"
---när masken "äter
---när en ny nivå nås(?)
 
+Skapa klasser:
+-Spelplan/Hinder/Väggar
+-Position (x-variabel samt en y-variabel)
+-Mask
+-Siffror
 
+PRIO 1:
+-Spellogik Mask: reaktion på keystrokes
+-Spellogik Tid: hastighet för rörelsen
+-Spellogik Poäng: 100*uppäten siffra
+-Spellogik Mask: koda hur den "dör" om den åker in i hinder eller sig själv
 
+-Hinder/spelplan: skapa (nivå 1)
+-Hinder/spelplan: Display av poängräkning
 
+-Mask: Skapa (start-storlek)
+-mask: koda rörelse
+-mask: funktion som växer x strl för varje siffra
+
+-Siffror: skriv ut på plan (1-9)
+-Siffror: håll reda på var de är
+-Siffror: vad händer med dem när de äts upp
+
+PRIO 2:
+-Hinder/spelplan: Olika hinder för olika levels (antal?)
+
+-Textrutor: start ink. möjlighet att välja level
+-Textrutor: mellan nivåer
+-Textrutor: game over
+
+-Musik: start + game over
+
+-Ljudeffekter: när masken "dör"
+-Ljudeffekter: när masken "äter
+-Ljudeffekter: när en ny nivå nås(?)

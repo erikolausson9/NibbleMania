@@ -1,0 +1,29 @@
+
+UPPGIFT:
+1. Creating a game with Google Lanterna
+2. Use Git to handle the code of your game and put the code on Github
+
+VERKTYG:
+Lanterna
+
+Tid: 
+2,5 dagar
+	
+PRODUCT BACKLOG:
+-Skapa hinder
+--Olika hinder för olika levels (antal?)
+-Skapa mask 
+--med funktion som växer x strl för varje siffra
+--som "dör" om den åker in i hinder eller sig själv
+-Skapa textrutor mellan nivåer
+-Skapa textruta för game over
+-Skapa möjlighet att välja nivå
+-Musik (start + game over)
+-Ljudeffekter
+--när masken "dör"
+--när masken "äter
+--när en ny nivå nås(?)
+
+
+
+

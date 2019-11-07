@@ -16,6 +16,7 @@ public class Mask {
     //instance variables
     final char PLAYER = '\u2588';
     private final int initialMaskLength = 2;
+    public int currentMaskLength = initialMaskLength;
     private List<Position> maskPositions;
     private MaskDirection direction;
     private int speed;
@@ -108,7 +109,17 @@ public class Mask {
 
         //add the new Mask position as the first element of the ArrayList
         maskPositions.add(0, new Position(newX, newY));
+        if (maskPositions.size()>currentMaskLength){
+            //platser vi vill sudda nedan:
+            int x= maskPositions.get(maskPositions.size()-1).x; //plocka ut värdet för x från array-elementet
+            int y= maskPositions.get(maskPositions.size()-1).y; //samma för y
 
+            //sätta cursorn där vi vill sudda
+            terminal.setCursorPosition(x, y);
+            terminal.putCharacter(' ');
+            maskPositions.remove(maskPositions.size()-1);
+
+        }
         printMask(terminal);
 
         return true;

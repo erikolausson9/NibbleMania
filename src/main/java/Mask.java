@@ -101,13 +101,18 @@ public class Mask {
             case UP:
                 newY=oldY-1;
         }
-        //
+        // check wall collision
         for(Position pos : obstacles.getObstacles()) {
             if (newX == pos.x  && newY == pos.y){
                 return false;
+             }
         }
 
-
+        // check the collision with itself
+        for(Position pos : maskPositions) {
+            if (newX == pos.x  && newY == pos.y){
+                return false;
+            }
         }
 
         //add the new Mask position as the first element of the ArrayList

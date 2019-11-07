@@ -6,7 +6,7 @@ UPPGIFT:
 VERKTYG:
 Lanterna
 
-Tid: 
+TID: 
 2,5 dagar
 
 Referens:
@@ -14,47 +14,64 @@ https://www.youtube.com/watch?v=UmeKHtei0qo
 	
 PRODUCT BACKLOG:
 
+
+PRIO 1:
+
+-Spellogik Poäng: 100*uppäten siffra (nivåberoende, mer poäng för högre hastighet)
+-Hinder/spelplan: Display av poängräkning, Level etc
+
+
+BUGG-Hinder/spelplan: fixa BUGGAR som gör att siffror hamnar i hindren/väggarna. 
+BUGG-Kollitionshantering: Justera så masken inte åker in ett steg i väggen när den kolliderar åt höger
+
+
+
+PRIO 2:
+
+-Spelarnivå: ställa in hur snabbt masken ska röra sig från början
+-Textrutor: start ink. möjlighet att välja hastighet(nivå) (låt poängen bero på nivå, dvs om man har högre hastighet på masken får man högre poäng per uppäten siffra).
+-Textrutor: game over
+-Färgsättning: ändra färger
+
+-Musik/ljudeffekter: start + game over
+-Ljudeffekter: när masken "dör"
+-Ljudeffekter: när masken "äter
+
+
+PRIO 3:
+
+-Pausmöjlighet (space-tangent)
+-Hinder/spelplan: Olika hinder för olika levels (antal?)
+-Textruta: för varje level
+-Textruta: tillägg till startruta: välja level
+
+-Mask: kunna starta uppåt eller nedåt också
+
+-Ljudeffekter: när en ny nivå nås(?)
+
+PRIO 4:
+
+-Mask: börja på random plats (med max avstånd till hinder/inom ett visst område)
+
+
+AVCHECKAT
+
 Skapa klasser:
 -Spelplan/Hinder/Väggar
 -Position (x-variabel samt en y-variabel)
 -Mask
--Siffror
 
-PRIO 1:
+-Siffror: skriv ut på plan (1-9)
+-Mask: funktion som växer x strl för varje siffra
+
 -Spellogik Mask: reaktion på keystrokes
 -Spellogik Tid: hastighet för rörelsen
--Spellogik Poäng: 100*uppäten siffra
 -Spellogik Mask: koda hur den "dör" om den åker in i hinder eller sig själv
-
--Hinder/spelplan: skapa (nivå 1)
--Hinder/spelplan: Display av poängräkning
 
 -Mask: Skapa (start-storlek)
 -mask: koda rörelse
--mask: funktion som växer x strl för varje siffra
 
--Siffror: skriv ut på plan (1-9)
+-Hinder/spelplan: skapa (nivå 1)
 -Siffror: håll reda på var de är
--Siffror: vad händer med dem när de äts upp
 
-PRIO 2:
--Hinder/spelplan: Olika hinder för olika levels (antal?)
 
--Textrutor: start ink. möjlighet att välja level
--Textrutor: mellan nivåer
--Textrutor: game over
-
--Mask: börja på random plats (med max avstånd till hinder/inom ett visst område)
--Mask: kunna starta uppåt eller nedåt också
-
--Musik: start + game over
-
--Spelarnivå: ställa in hur snabbt masken ska röra sig från början
-
--Ljudeffekter: när masken "dör"
--Ljudeffekter: när masken "äter
--Ljudeffekter: när en ny nivå nås(?)
-
--Färgsättning: ändra färger
-
--Pausmöjlighet (space-tangent)

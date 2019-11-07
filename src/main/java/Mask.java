@@ -25,15 +25,17 @@ public class Mask {
     private MaskDirection direction;
     private int speed;
     private Position numberPosition;
+    private TextColor color;
 
     //constructor
-    public Mask(Position startPosition, int speed){
+    public Mask(Position startPosition, int speed, TextColor color){
         maskPositions= new ArrayList<>(initialMaskLength);
         maskPositions.add(startPosition);
         maskPositions.add(new Position(startPosition.x-1, startPosition.y));
         direction = MaskDirection.RIGHT;
         this.speed = speed;
         numberPosition = new Position(0,0);
+        this.color = color;
     }
 
 
@@ -54,28 +56,32 @@ public class Mask {
         this.numberPosition = numberPosition;
     }
 
+    public MaskDirection getDirection() {
+        return direction;
+    }
+
     //instance methods
     public void printMask(Terminal terminal) throws IOException {
 
         for(Position pos: maskPositions){
             terminal.setCursorPosition(pos.x, pos.y);
-            terminal.setForegroundColor(new TextColor.RGB(250, 0, 0));
+            terminal.setForegroundColor(color);
             terminal.putCharacter(PLAYER);
         }
         terminal.flush();
 
     }
-    public void changeDirectionOfMask(KeyType type){
+    public void changeDirectionPlayerOne(KeyType type){
 
         switch(type){
-            case ArrowDown:
-                if(direction==MaskDirection.LEFT || direction==MaskDirection.RIGHT) {
-                    direction = MaskDirection.DOWN;
-                }
-                break;
             case ArrowUp:
                 if(direction==MaskDirection.LEFT || direction==MaskDirection.RIGHT) {
                     direction = MaskDirection.UP;
+                }
+                break;
+            case ArrowDown:
+                if(direction==MaskDirection.LEFT || direction==MaskDirection.RIGHT) {
+                    direction = MaskDirection.DOWN;
                 }
                 break;
             case ArrowLeft:
@@ -86,12 +92,43 @@ public class Mask {
             case ArrowRight:
                 if(direction==MaskDirection.UP || direction==MaskDirection.DOWN) {
                     direction = MaskDirection.RIGHT;
+
                 }
+
+
+        }
+
+    }    public void changeDirectionPlayerTwo(char keyStrokeChar){
+
+        switch(keyStrokeChar){
+            case 's':
+                if(direction==MaskDirection.LEFT || direction==MaskDirection.RIGHT) {
+                    direction = MaskDirection.DOWN;
+                }
+                break;
+            case 'w':
+                if(direction==MaskDirection.LEFT || direction==MaskDirection.RIGHT) {
+                    direction = MaskDirection.UP;
+                }
+                break;
+            case 'a':
+                if(direction==MaskDirection.UP || direction==MaskDirection.DOWN) {
+                    direction = MaskDirection.LEFT;
+                }
+                break;
+            case 'd':
+                if(direction==MaskDirection.UP || direction==MaskDirection.DOWN) {
+                    direction = MaskDirection.RIGHT;
+
+                }
+
+
         }
 
     }
 
-    public boolean moveMaskForward(Terminal terminal, Obstacles obstacles) throws InterruptedException, IOException, LineUnavailableException, UnsupportedAudioFileException {
+    public boolean moveMaskForward(Terminal terminal, Obstacles obstacles, ArrayList<Mask> maskar)
+            throws InterruptedException, IOException, LineUnavailableException, UnsupportedAudioFileException {
 
         Thread.sleep(speed);
 
@@ -124,13 +161,16 @@ public class Mask {
              }
         }
 
-        // check the collision with itself
-        for(Position pos : maskPositions) {
-            if (newX == pos.x  && newY == pos.y){
-                System.out.println("GAME OVER!");
-                return false;
+        // check the collision with itself and possible other mask
+        for(Mask mask: maskar){
+            for(Position pos : mask.getMaskPositions()) {
+                if (newX == pos.x  && newY == pos.y){
+                    System.out.println("GAME OVER!");
+                    return false;
+                }
             }
         }
+
 
         //add the new Mask position as the first element of the ArrayList
         maskPositions.add(0, new Position(newX, newY));
@@ -149,6 +189,7 @@ public class Mask {
 
         //check if mask has eaten a number
         if(numberPosition.x == newX && numberPosition.y == newY) {
+            //check to see if mask has eaten the final number
             if(Main.value == 9) {
                 System.out.println("YOU WON!!!");
                 //play victory
@@ -161,7 +202,7 @@ public class Mask {
             }
             Main.updateScore(terminal);
             Main.value++;
-            Main.generateNewNumber(Main.value, this, obstacles, terminal);
+            Main.generateNewNumber(Main.value, obstacles, terminal);
             currentMaskLength *= 2;
 
         }

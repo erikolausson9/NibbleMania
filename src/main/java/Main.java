@@ -9,6 +9,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
@@ -16,11 +17,16 @@ public class Main {
     public static int value = 1;
     public static final int TOPOFPlAYINGFIELD=1;
     public static int score = 0;
-    public static int speed = 150;
+    public static int speed = 200;
+    public static final TextColor WHITE = new TextColor.RGB(255, 255, 255);
+    public static final TextColor PLAYERONE = new TextColor.RGB(255, 0, 0);
+    public static final TextColor PLAYERTWO = new TextColor.RGB(0, 255, 0);
+    public static ArrayList<Mask> maskar;
 
     public static void main(String[] args) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException, LineUnavailableException, UnsupportedAudioFileException {
 
 
+        boolean twoPlayers = true; //TODO: set this variable on start screen
 
         //initialize terminal
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
@@ -33,6 +39,7 @@ public class Main {
         StartScreen run = new StartScreen(terminal);
 
         //display score
+        terminal.setForegroundColor(WHITE);
         terminal.setCursorPosition(terminal.getTerminalSize().getColumns()-14, 0);
         String points = "Points: ";
         points += Integer.toString(score);
@@ -50,34 +57,61 @@ public class Main {
 
 
 
-        //initialize wallsLevel1
+        //initialize walls for level 1
         Obstacles wallsLevel1 = new Obstacles(terminal);
 
-        //initialize mask
-        Position position1 = new Position(10, 10);
-        Mask mask = new Mask(position1, 100);
-        mask.printMask(terminal);
-        generateNewNumber(1, mask, wallsLevel1, terminal);
+        //initialize mask player1
+        Position position1 = new Position(50, 15);
+        Mask mask1 = new Mask(position1, speed, PLAYERONE);
+        mask1.printMask(terminal);
+
+        maskar = new ArrayList<>();
+        maskar.add(mask1);
+
+        //initialize mask player2
+        Position position2 = new Position(10, 10);
+        Mask mask2 = new Mask(position2, speed, PLAYERTWO);
+        if(twoPlayers){
+         mask2.printMask(terminal);
+         maskar.add(mask2);
+        }
+
+
+
+        generateNewNumber(1, wallsLevel1, terminal);
 
         //gameplay loop
         while (continuePlaying) {
 
-            //check for keystroke from user
+            //check for keystroke from user(s)
             keyStroke = terminal.pollInput();
             if (keyStroke != null) {
                 KeyType keyType = keyStroke.getKeyType();
                 if (keyStroke.getCharacter() != null) {
                     keyStrokeChar = keyStroke.getCharacter();
                     System.out.println("character: " + keyStrokeChar);
-                } else {
-                    System.out.println("type: " + type);
                     //call the Mask class and see if the direction should change
-                    mask.changeDirectionOfMask(keyType);
+
+                    if(twoPlayers){
+                        mask2.changeDirectionPlayerTwo(keyStrokeChar);
+                    }
+
+                } else {
+                    System.out.println("type: " + keyType);
+                    //call the Mask class and see if the direction should change
+                    mask1.changeDirectionPlayerOne(keyType);
                 }
             }
 
-            continuePlaying = mask.moveMaskForward(terminal, wallsLevel1);
 
+            if(twoPlayers){
+                continuePlaying=mask1.moveMaskForward(terminal, wallsLevel1, maskar)
+                        && mask2.moveMaskForward(terminal, wallsLevel1, maskar) ;
+            }
+            else
+            {
+                continuePlaying = mask1.moveMaskForward(terminal, wallsLevel1, maskar);
+            }
             //check if the player wants to quit the game
             if (keyStrokeChar == Character.valueOf('q')) {
                 continuePlaying = false;
@@ -101,7 +135,7 @@ public class Main {
         terminal.close();
     }
 
-    public static void generateNewNumber(int value, Mask mask, Obstacles obstacles, Terminal terminal) throws IOException {
+    public static void generateNewNumber(int value, Obstacles obstacles, Terminal terminal) throws IOException {
 
         Position numberPosition = null;
         boolean positionOk = false;
@@ -119,16 +153,19 @@ public class Main {
                 }
             }
 
-            //make sure the new number position doesn't collide with mask
-            for(Position pos : mask.getMaskPositions()) {
-                if (numberPosition.x == pos.x  && numberPosition.y == pos.y){
-                    positionOk = false;
-                    break;
-                }
+            //make sure the new number position doesn't collide with any mask
+            for(Mask mask: maskar){
+                for(Position pos : mask.getMaskPositions()) {
+                    if (numberPosition.x == pos.x  && numberPosition.y == pos.y){
+                        positionOk = false;
+                        break;
+                    }
+            }
+
             }
         }
 
-        mask.setNumberPosition(numberPosition);
+        maskar.get(0).setNumberPosition(numberPosition);
 
         // printing numbers
         terminal.setForegroundColor(new TextColor.RGB(255, 255, 255));

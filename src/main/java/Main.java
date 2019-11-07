@@ -8,18 +8,40 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Main {
 
     public static int value = 1;
+    public static final int TOPOFPlAYINGFIELD=1;
+    public static int score = 0;
+    public static int speed = 150;
 
     public static void main(String[] args) throws IOException, InterruptedException {
+
+        //variables used in gameplay loop
+
+
+
 
         //initialize terminal
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
         Terminal terminal = terminalFactory.createTerminal();
 
+
         terminal.setCursorVisible(false);
+        //display score
+        terminal.setCursorPosition(terminal.getTerminalSize().getColumns()-14, 0);
+        String points = "Points: ";
+        points += Integer.toString(score);
+        for(char c : points.toCharArray()){
+            terminal.putCharacter(c);
+        }
+
+
+
+
         KeyStroke keyStroke = null;
 
         char keyStrokeChar = ' ';
         boolean continuePlaying = true;
+
+
 
         //initialize wallsLevel1
         Obstacles wallsLevel1 = new Obstacles(terminal);
@@ -65,9 +87,11 @@ public class Main {
         boolean positionOk = false;
         while(!positionOk) {
             positionOk = true;
-            numberPosition = new Position(ThreadLocalRandom.current().nextInt(0, 80), ThreadLocalRandom.current().nextInt(0, 24));
+            numberPosition = new Position(ThreadLocalRandom.current().nextInt(0, terminal.getTerminalSize().getColumns()-1), ThreadLocalRandom.current().nextInt(TOPOFPlAYINGFIELD, terminal.getTerminalSize().getRows()-1));
 
-            // check wall collision
+
+            System.out.println("Looping");
+            //make sure new number position doesn't collide with any walls or other obstacles
             for(Position pos : obstacles.getObstacles()) {
                 if (numberPosition.x == pos.x  && numberPosition.y == pos.y){
                     positionOk = false;
@@ -75,7 +99,7 @@ public class Main {
                 }
             }
 
-            // check the collision with itself
+            //make sure the new number position doesn't collide with mask
             for(Position pos : mask.getMaskPositions()) {
                 if (numberPosition.x == pos.x  && numberPosition.y == pos.y){
                     positionOk = false;
@@ -90,16 +114,19 @@ public class Main {
         terminal.setCursorPosition(numberPosition.x, numberPosition.y);
         terminal.putCharacter((char)(value + '0'));
         terminal.flush();
-
     }
 
-//    public void generateNewNumber(int value, List<Mask> maskPositions, List<Walls> wallPositions ){
-//        //Size 80 X 24
-//
-//        //Generate position for number
-//        Position numberPosition = new Position(ThreadLocalRandom.current().nextInt(1, 79), ThreadLocalRandom.current().nextInt(1, 23));
-//
-//    }
+    public static void updateScore(Terminal terminal) throws IOException {
+        score += Main.value *100*100/speed;
+        char[] scoreAsCharArray = ("" + score).toCharArray();
+        //set cursor at top left corner with enough room left to print out the score
+        terminal.setCursorPosition(terminal.getTerminalSize().getColumns()-6, 0);
+        for(char c: scoreAsCharArray){
+            terminal.putCharacter(c);
+        }
+    }
+
+
 
 
 

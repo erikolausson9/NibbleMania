@@ -24,13 +24,13 @@ public class Obstacles {
 
         for(int ii=0; ii<80; ii++){
             //create outer walls at top and bottom of screen
-            obstacles.add(new Position(ii, 0));
-            obstacles.add(new Position(ii, 24));
+            obstacles.add(new Position(ii, Main.TOPOFPlAYINGFIELD));
+            obstacles.add(new Position(ii, 23));
         }
-        for(int ii=0; ii<24; ii++){
+        for(int ii=Main.TOPOFPlAYINGFIELD; ii<24; ii++){
             //create outer walls at top and bottom of screen
             obstacles.add(new Position(0, ii));
-            obstacles.add(new Position(80, ii));
+            obstacles.add(new Position(79, ii));
         }
 
     }

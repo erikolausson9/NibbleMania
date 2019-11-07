@@ -143,14 +143,17 @@ public class Mask {
         }
         printMask(terminal);
 
+        //check if mask has eaten a number
         if(numberPosition.x == newX && numberPosition.y == newY) {
             if(Main.value == 9) {
                 System.out.println("YOU WON!!!");
                 return false;
             }
+            Main.updateScore(terminal);
             Main.value++;
             Main.generateNewNumber(Main.value, this, obstacles, terminal);
             currentMaskLength *= 2;
+
         }
 
         return true;

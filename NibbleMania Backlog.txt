@@ -18,8 +18,6 @@ PRODUCT BACKLOG:
 PRIO 1:
 
 
--Hinder/spelplan: Display av poängräkning, Level etc
-
 
 
 
@@ -64,7 +62,7 @@ Skapa klasser:
 -Spellogik Mask: reaktion på keystrokes
 -Spellogik Tid: hastighet för rörelsen
 -Spellogik Mask: koda hur den "dör" om den åker in i hinder eller sig själv
--Spellogik Poäng: 100*uppäten siffra (nivåberoende, mer poäng för högre hastighet)
+
 
 -Mask: Skapa (start-storlek)
 -mask: koda rörelse
@@ -72,6 +70,9 @@ Skapa klasser:
 -Hinder/spelplan: skapa (nivå 1)
 -Siffror: håll reda på var de är
 
+
+-Hinder/spelplan: Display av poängräkning, Level etc
+-Spellogik Poäng: 100*uppäten siffra (nivåberoende, mer poäng för högre hastighet)
 
 BUGG-Hinder/spelplan: fixa BUGGAR som gör att siffror hamnar i hindren/väggarna. 
 BUGG-Kollitionshantering: Justera så masken inte åker in ett steg i väggen när den kolliderar åt höger

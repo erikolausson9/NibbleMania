@@ -4,15 +4,20 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
 
-    public class StartScreen {
+    public class Screen {
+
+        //instance variables
+        private int terminalColumns;
+        private int terminalRows;
 
         //constructor
-        public StartScreen(Terminal terminal) throws IOException, InterruptedException {
+        public Screen(Terminal terminal) throws IOException, InterruptedException {
 
+            this.terminalColumns = terminal.getTerminalSize().getColumns();
+            this.terminalRows = terminal.getTerminalSize().getRows();
+        }
 
-            int terminalColumns = terminal.getTerminalSize().getColumns();
-            int terminalRows = terminal.getTerminalSize().getRows();
-
+        public void startScreen(Terminal terminal) throws IOException, InterruptedException {
             String row1 = "Welcome to Nibble Mania!";
             int row1Length = row1.toCharArray().length;
 
@@ -58,7 +63,6 @@ import java.io.IOException;
                     terminal.close();
                 }
             }
-
         }
 
     }

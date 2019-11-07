@@ -71,7 +71,7 @@ public class Main {
 
         //initialize mask player2
         Position position2 = new Position(10, 10);
-        Mask mask2 = new Mask(position2, speed, PLAYERTWO);
+        BotMask mask2 = new BotMask(position2, speed, PLAYERTWO);
         if(twoPlayers){
          mask2.printMask(terminal);
          maskar.add(mask2);
@@ -94,7 +94,7 @@ public class Main {
                     //call the Mask class and see if the direction should change
 
                     if(twoPlayers){
-                        mask2.changeDirectionPlayerTwo(keyStrokeChar);
+                        //mask2.changeDirectionPlayerTwo(keyStrokeChar);
                     }
 
                 } else {
@@ -104,6 +104,7 @@ public class Main {
                 }
             }
 
+            mask2.setDirection();
 
             if(twoPlayers){
                 continuePlaying=mask1.moveMaskForward(terminal, wallsLevel1, maskar)
@@ -166,10 +167,13 @@ public class Main {
             }
         }
 
-        maskar.get(0).setNumberPosition(numberPosition);
+        //store the position of the next number
+        for(Mask mask: maskar) {
+            mask.setNumberPosition(numberPosition);
+        }
 
         // printing numbers
-        terminal.setForegroundColor(new TextColor.RGB(255, 255, 255));
+        terminal.setForegroundColor(WHITE);
         terminal.setCursorPosition(numberPosition.x, numberPosition.y);
         terminal.putCharacter((char)(value + '0'));
         terminal.flush();

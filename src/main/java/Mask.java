@@ -22,7 +22,7 @@ public class Mask {
     private final int initialMaskLength = 2;
     public int currentMaskLength = initialMaskLength;
     private List<Position> maskPositions;
-    private MaskDirection direction;
+    protected MaskDirection direction;
     private int speed;
     private Position numberPosition;
     private TextColor color;

@@ -15,9 +15,27 @@ public class BotMask extends Mask {
         int currentX = getMaskPositions().get(0).x;
         int currentY = getMaskPositions().get(0).y;
 
-        switch(getDirection()){
+        System.out.printf("goalx %d, goaly %d, currentx %d, currenty %d \n", goalX, goalY, currentX, currentY);
+
+        switch(direction){
+            case UP:
+            case DOWN:
+                if(currentX>goalX){
+                    direction = MaskDirection.LEFT;
+                }
+                else if(currentX<goalX){
+                    direction = MaskDirection.RIGHT;
+                }
+                break;
+            case LEFT:
             case RIGHT:
-                if()
+                if(currentY>goalY){
+                    direction = MaskDirection.UP;
+                }
+                else if(currentY<goalY){
+                    direction = MaskDirection.DOWN;
+                }
+                break;
         }
 
     }

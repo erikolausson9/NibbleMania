@@ -189,14 +189,23 @@ public class Mask {
 
         //check if mask has eaten a number
         if(numberPosition.x == newX && numberPosition.y == newY) {
+
+            //play eating sound
+            String eatingSound = "eating.wav";
+            SoundPlayer soundPlayer1 = new SoundPlayer();
+            soundPlayer1.playSound(eatingSound);
+
             //check to see if mask has eaten the final number
-            if(Main.value == 9) {
+            if(Main.value == Main.pointsToWin) {
                 System.out.println("YOU WON!!!");
+
                 //play victory
-                String victorySound = "C:\\Users\\Erik Olausson\\IdeaProjects\\NibbleMania\\Victory.wav";
+                String victorySound = "Victory.wav";
                 SoundPlayer soundPlayer = new SoundPlayer();
 
                 soundPlayer.playSound(victorySound);
+                Main.value++;
+
 
                 return false;
             }

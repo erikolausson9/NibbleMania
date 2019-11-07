@@ -14,6 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Main {
 
     public static int value = 1;
+    public static int pointsToWin = 2;
     public static final int TOPOFPlAYINGFIELD=1;
     public static int score = 0;
     public static int speed = 200;
@@ -25,7 +26,7 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException, LineUnavailableException, UnsupportedAudioFileException {
 
 
-        boolean twoPlayers = true; //TODO: set this variable on start screen
+        boolean twoPlayers = true;
 
         //initialize terminal
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
@@ -37,7 +38,7 @@ public class Main {
         //initialize screen
         Screen screen = new Screen(terminal);
 
-        screen.startScreen(terminal);
+        twoPlayers = screen.startScreen(terminal);
 
         //display score
         terminal.setForegroundColor(WHITE);
@@ -134,6 +135,9 @@ public class Main {
 //                }
 //            }
         }
+        //Show end game screen
+        screen.endScreen(terminal);
+
         terminal.close();
     }
 

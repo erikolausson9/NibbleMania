@@ -33,6 +33,10 @@ public class Main {
 
 
         terminal.setCursorVisible(false);
+
+        //initialize start screen
+        StartScreen run = new StartScreen(terminal);
+
         //display score
         terminal.setCursorPosition(terminal.getTerminalSize().getColumns()-14, 0);
         String points = "Points: ";

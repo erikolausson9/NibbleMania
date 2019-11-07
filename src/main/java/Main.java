@@ -45,7 +45,7 @@ public class Main {
                 }
             }
 
-            continuePlaying = mask.moveMaskForward(terminal);
+            continuePlaying = mask.moveMaskForward(terminal, wallsLevel1);
 
             //check if the player wants to quit the game
             if (keyStrokeChar == Character.valueOf('q')) {

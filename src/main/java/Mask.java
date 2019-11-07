@@ -102,10 +102,14 @@ public class Mask {
                 newY=oldY-1;
         }
         //
+        for(Position pos : obstacles.getObstacles()) {
+            if (newX == pos.x  && newY == pos.y){
+                return false;
+        }
 
-        if ( ){
 
         }
+
         //add the new Mask position as the first element of the ArrayList
         maskPositions.add(0, new Position(newX, newY));
         if (maskPositions.size()>currentMaskLength){

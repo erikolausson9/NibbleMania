@@ -28,8 +28,6 @@ public class Mask {
         maskPositions.add(new Position(startPosition.x-1, startPosition.y));
         direction = MaskDirection.RIGHT;
         this.speed = speed;
-
-
     }
 
 
@@ -74,19 +72,17 @@ public class Mask {
                 if(direction==MaskDirection.UP || direction==MaskDirection.DOWN) {
                     direction = MaskDirection.RIGHT;
                 }
-
         }
 
     }
 
-    public boolean moveMaskForward(Terminal terminal) throws InterruptedException, IOException {
+    public boolean moveMaskForward(Terminal terminal, Obstacles obstacles) throws InterruptedException, IOException {
 
         Thread.sleep(speed);
 
         //get the position of the head of the mask
         int oldX = maskPositions.get(0).x;
         int oldY = maskPositions.get(0).y;
-
 
         int newX = oldX;
         int newY = oldY;
@@ -104,9 +100,12 @@ public class Mask {
                 break;
             case UP:
                 newY=oldY-1;
+        }
+        //
+
+        if ( ){
 
         }
-
         //add the new Mask position as the first element of the ArrayList
         maskPositions.add(0, new Position(newX, newY));
         if (maskPositions.size()>currentMaskLength){
@@ -114,7 +113,7 @@ public class Mask {
             int x= maskPositions.get(maskPositions.size()-1).x; //plocka ut värdet för x från array-elementet
             int y= maskPositions.get(maskPositions.size()-1).y; //samma för y
 
-            //sätta cursorn där vi vill sudda
+            //put cursor where we want to clear
             terminal.setCursorPosition(x, y);
             terminal.putCharacter(' ');
             maskPositions.remove(maskPositions.size()-1);

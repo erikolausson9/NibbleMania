@@ -24,7 +24,7 @@ public class Main {
         String victorySound = "C:\\Users\\Erik Olausson\\IdeaProjects\\NibbleMania\\Victory.wav";
         SoundPlayer soundPlayer = new SoundPlayer();
 
-        //soundPlayer.playSound(victorySound);
+        soundPlayer.playSound(victorySound);
 
 
         //initialize terminal
@@ -45,7 +45,7 @@ public class Main {
 
 
         KeyStroke keyStroke = null;
-
+        KeyType type = null;
         char keyStrokeChar = ' ';
         boolean continuePlaying = true;
 
@@ -66,14 +66,14 @@ public class Main {
             //check for keystroke from user
             keyStroke = terminal.pollInput();
             if (keyStroke != null) {
-                KeyType type = keyStroke.getKeyType();
+                KeyType keyType = keyStroke.getKeyType();
                 if (keyStroke.getCharacter() != null) {
                     keyStrokeChar = keyStroke.getCharacter();
                     System.out.println("character: " + keyStrokeChar);
                 } else {
                     System.out.println("type: " + type);
                     //call the Mask class and see if the direction should change
-                    mask.changeDirectionOfMask(type);
+                    mask.changeDirectionOfMask(keyType);
                 }
             }
 
@@ -85,6 +85,19 @@ public class Main {
                 System.out.println("quit");
                 terminal.close();
             }
+
+            //check if player wants to pause game
+//            else if (keyStrokeChar == Character.valueOf('p')){
+//                System.out.println("Pausing game. Press p to resume");
+//                while(true){
+//                    keyStroke = terminal.pollInput();
+//                    if (keyStroke!=null && keyStroke.getCharacter() != null) {
+//
+//                        keyStrokeChar = keyStroke.getCharacter();
+//                        if(keyStrokeChar== Character.valueOf('p'));
+//                    }
+//                }
+//            }
         }
         terminal.close();
     }
@@ -98,7 +111,7 @@ public class Main {
             numberPosition = new Position(ThreadLocalRandom.current().nextInt(0, terminal.getTerminalSize().getColumns()-1), ThreadLocalRandom.current().nextInt(TOPOFPlAYINGFIELD, terminal.getTerminalSize().getRows()-1));
 
 
-            System.out.println("Looping");
+
             //make sure new number position doesn't collide with any walls or other obstacles
             for(Position pos : obstacles.getObstacles()) {
                 if (numberPosition.x == pos.x  && numberPosition.y == pos.y){

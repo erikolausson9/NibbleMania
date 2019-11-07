@@ -1,3 +1,4 @@
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -23,7 +24,8 @@ public class Main {
         String victorySound = "C:\\Users\\Erik Olausson\\IdeaProjects\\NibbleMania\\Victory.wav";
         SoundPlayer soundPlayer = new SoundPlayer();
 
-        soundPlayer.playSound(victorySound);
+        //soundPlayer.playSound(victorySound);
+
 
         //initialize terminal
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
@@ -117,6 +119,7 @@ public class Main {
         mask.setNumberPosition(numberPosition);
 
         // printing numbers
+        terminal.setForegroundColor(new TextColor.RGB(255, 255, 255));
         terminal.setCursorPosition(numberPosition.x, numberPosition.y);
         terminal.putCharacter((char)(value + '0'));
         terminal.flush();
@@ -127,6 +130,7 @@ public class Main {
         char[] scoreAsCharArray = ("" + score).toCharArray();
         //set cursor at top left corner with enough room left to print out the score
         terminal.setCursorPosition(terminal.getTerminalSize().getColumns()-6, 0);
+        terminal.setForegroundColor(new TextColor.RGB(255, 255, 255));
         for(char c: scoreAsCharArray){
             terminal.putCharacter(c);
         }

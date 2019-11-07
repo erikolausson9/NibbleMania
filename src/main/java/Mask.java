@@ -2,6 +2,7 @@
 //-mask: koda rörelse
 //-mask: funktion som växer x strl för varje siffra
 
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.Terminal;
 import org.w3c.dom.ls.LSOutput;
@@ -56,6 +57,7 @@ public class Mask {
 
         for(Position pos: maskPositions){
             terminal.setCursorPosition(pos.x, pos.y);
+            terminal.setForegroundColor(new TextColor.RGB(250, 0, 0));
             terminal.putCharacter(PLAYER);
         }
         terminal.flush();

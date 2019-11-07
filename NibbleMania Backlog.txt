@@ -26,7 +26,7 @@ PRIO 2:
 -Spelarnivå: ställa in hur snabbt masken ska röra sig från början
 -Textrutor: start ink. möjlighet att välja hastighet(nivå) (låt poängen bero på nivå, dvs om man har högre hastighet på masken får man högre poäng per uppäten siffra).
 -Textrutor: game over
--Färgsättning: ändra färger
+
 
 -Musik/ljudeffekter: start + game over
 -Ljudeffekter: när masken "dör"
@@ -77,5 +77,5 @@ Skapa klasser:
 BUGG-Hinder/spelplan: fixa BUGGAR som gör att siffror hamnar i hindren/väggarna. 
 BUGG-Kollitionshantering: Justera så masken inte åker in ett steg i väggen när den kolliderar åt höger
 
-
+-Färgsättning: ändra färger
 

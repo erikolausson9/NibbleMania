@@ -56,6 +56,7 @@ public class Main {
                 terminal.close();
             }
         }
+        terminal.close();
     }
 
     public static void generateNewNumber(int value, Mask mask, Obstacles obstacles, Terminal terminal) throws IOException {

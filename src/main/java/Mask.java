@@ -4,6 +4,7 @@
 
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.Terminal;
+import org.w3c.dom.ls.LSOutput;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -114,6 +115,7 @@ public class Mask {
         // check wall collision
         for(Position pos : obstacles.getObstacles()) {
             if (newX == pos.x  && newY == pos.y){
+                System.out.println("GAME OVER!");
                 return false;
              }
         }
@@ -121,6 +123,7 @@ public class Mask {
         // check the collision with itself
         for(Position pos : maskPositions) {
             if (newX == pos.x  && newY == pos.y){
+                System.out.println("GAME OVER!");
                 return false;
             }
         }
@@ -141,6 +144,10 @@ public class Mask {
         printMask(terminal);
 
         if(numberPosition.x == newX && numberPosition.y == newY) {
+            if(Main.value == 9) {
+                System.out.println("YOU WON!!!");
+                return false;
+            }
             Main.value++;
             Main.generateNewNumber(Main.value, this, obstacles, terminal);
             currentMaskLength *= 2;

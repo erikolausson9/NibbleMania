@@ -140,6 +140,12 @@ public class Mask {
         }
         printMask(terminal);
 
+        if(numberPosition.x == newX && numberPosition.y == newY) {
+            Main.value++;
+            Main.generateNewNumber(Main.value, this, obstacles, terminal);
+            currentMaskLength *= 2;
+        }
+
         return true;
 
     }

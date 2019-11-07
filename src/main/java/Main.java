@@ -7,6 +7,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
 
+    public static int value = 1;
+
     public static void main(String[] args) throws IOException, InterruptedException {
 
         //initialize terminal
@@ -80,6 +82,8 @@ public class Main {
                 }
             }
         }
+
+        mask.setNumberPosition(numberPosition);
 
         // printing numbers
         terminal.setCursorPosition(numberPosition.x, numberPosition.y);

@@ -26,6 +26,7 @@ public class Main {
         Position position1 = new Position(10, 10);
         Mask mask = new Mask(position1, 100);
         mask.printMask(terminal);
+        generateNewNumber(1, mask, wallsLevel1, terminal);
 
         //gameplay loop
         while (continuePlaying) {
@@ -55,12 +56,13 @@ public class Main {
         }
     }
 
-    public static void generateNewNumber(int value, Mask mask, Obstacles obstacles, Terminal terminal) {
+    public static void generateNewNumber(int value, Mask mask, Obstacles obstacles, Terminal terminal) throws IOException {
 
+        Position numberPosition = null;
         boolean positionOk = false;
         while(!positionOk) {
             positionOk = true;
-            Position numberPosition = new Position(ThreadLocalRandom.current().nextInt(0, 80), ThreadLocalRandom.current().nextInt(0, 24));
+            numberPosition = new Position(ThreadLocalRandom.current().nextInt(0, 80), ThreadLocalRandom.current().nextInt(0, 24));
 
             // check wall collision
             for(Position pos : obstacles.getObstacles()) {
@@ -77,8 +79,13 @@ public class Main {
                     break;
                 }
             }
-
         }
+
+        // printing numbers
+        terminal.setCursorPosition(numberPosition.x, numberPosition.y);
+        terminal.putCharacter((char)(value + '0'));
+        terminal.flush();
+
     }
 
 //    public void generateNewNumber(int value, List<Mask> maskPositions, List<Walls> wallPositions ){

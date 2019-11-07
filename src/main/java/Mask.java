@@ -20,6 +20,7 @@ public class Mask {
     private List<Position> maskPositions;
     private MaskDirection direction;
     private int speed;
+    private Position numberPosition;
 
     //constructor
     public Mask(Position startPosition, int speed){
@@ -28,6 +29,7 @@ public class Mask {
         maskPositions.add(new Position(startPosition.x-1, startPosition.y));
         direction = MaskDirection.RIGHT;
         this.speed = speed;
+        numberPosition = new Position(0,0);
     }
 
 
@@ -38,6 +40,14 @@ public class Mask {
 
     public void setMaskPositions(List<Position> maskPositions) {
         this.maskPositions = maskPositions;
+    }
+
+    public Position getNumberPosition() {
+        return numberPosition;
+    }
+
+    public void setNumberPosition(Position numberPosition) {
+        this.numberPosition = numberPosition;
     }
 
     //instance methods

@@ -44,8 +44,17 @@ PRIO 2:
 -Textrutor: mellan nivåer
 -Textrutor: game over
 
+-Mask: börja på random plats (med max avstånd till hinder/inom ett visst område)
+-Mask: kunna starta uppåt eller nedåt också
+
 -Musik: start + game over
+
+-Spelarnivå: ställa in hur snabbt masken ska röra sig från början
 
 -Ljudeffekter: när masken "dör"
 -Ljudeffekter: när masken "äter
 -Ljudeffekter: när en ny nivå nås(?)
+
+-Färgsättning: ändra färger
+
+-Pausmöjlighet (space-tangent)

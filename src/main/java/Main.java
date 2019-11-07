@@ -19,8 +19,12 @@ public class Main {
         char keyStrokeChar = ' ';
         boolean continuePlaying = true;
 
+        //initialize wallsLevel1
+        Obstacles wallsLevel1 = new Obstacles(terminal);
+
         //initialize mask
-        Mask mask = new Mask(new Position(10, 10), 100);
+        Position position1 = new Position(10, 10);
+        Mask mask = new Mask(position1, 100);
         mask.printMask(terminal);
 
 

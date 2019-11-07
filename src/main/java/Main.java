@@ -20,11 +20,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException, LineUnavailableException, UnsupportedAudioFileException {
 
-        //initialize sound
-        String victorySound = "C:\\Users\\Erik Olausson\\IdeaProjects\\NibbleMania\\Victory.wav";
-        SoundPlayer soundPlayer = new SoundPlayer();
-
-        soundPlayer.playSound(victorySound);
 
 
         //initialize terminal

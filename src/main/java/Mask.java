@@ -7,6 +7,8 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.Terminal;
 import org.w3c.dom.ls.LSOutput;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +91,7 @@ public class Mask {
 
     }
 
-    public boolean moveMaskForward(Terminal terminal, Obstacles obstacles) throws InterruptedException, IOException {
+    public boolean moveMaskForward(Terminal terminal, Obstacles obstacles) throws InterruptedException, IOException, LineUnavailableException, UnsupportedAudioFileException {
 
         Thread.sleep(speed);
 
@@ -149,6 +151,12 @@ public class Mask {
         if(numberPosition.x == newX && numberPosition.y == newY) {
             if(Main.value == 9) {
                 System.out.println("YOU WON!!!");
+                //play victory
+                String victorySound = "C:\\Users\\Erik Olausson\\IdeaProjects\\NibbleMania\\Victory.wav";
+                SoundPlayer soundPlayer = new SoundPlayer();
+
+                soundPlayer.playSound(victorySound);
+
                 return false;
             }
             Main.updateScore(terminal);

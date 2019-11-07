@@ -17,35 +17,41 @@ PRODUCT BACKLOG:
 
 PRIO 1:
 
-
-
-
-
-PRIO 2:
-
--Spelarnivå: ställa in hur snabbt masken ska röra sig från början
+- fixa buggar: quit från startskärmen
+- se till att man hör hela victory-soundet
+- skapa skärmklass så att vi kan lägga till du vann-skärm och du förlorade-skärm.
 -Textrutor: start ink. möjlighet att välja hastighet(nivå) (låt poängen bero på nivå, dvs om man har högre hastighet på masken får man högre poäng per uppäten siffra).
--Textrutor: game over
-
+-Spelarnivå: ställa in hur snabbt masken ska röra sig från början
 
 -Musik/ljudeffekter: start + game over
 -Ljudeffekter: när masken "dör"
 -Ljudeffekter: när masken "äter
 
 
-PRIO 3:
+
+
+PRIO 2:
 
 -Pausmöjlighet (space-tangent)
+
+- två spelare
+
+
+PRIO 3:
+
+
 -Hinder/spelplan: Olika hinder för olika levels (antal?)
 -Textruta: för varje level
 -Textruta: tillägg till startruta: välja level
 
--Mask: kunna starta uppåt eller nedåt också
+- Bot-mask
+
 
 -Ljudeffekter: när en ny nivå nås(?)
 
 PRIO 4:
 
+-Mask: kunna starta uppåt eller nedåt också
 -Mask: börja på random plats (med max avstånd till hinder/inom ett visst område)
 
 

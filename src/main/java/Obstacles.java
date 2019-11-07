@@ -8,6 +8,10 @@ public class Obstacles {
     private List<Position> obstacles;
     final char WALL = '\u2588';
 
+    public List<Position> getObstacles() {
+        return obstacles;
+    }
+
     //constructor
     public Obstacles(Terminal terminal) throws IOException {
         obstacles = new ArrayList<Position>();

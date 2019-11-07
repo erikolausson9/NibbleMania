@@ -4,6 +4,7 @@
 
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.Terminal;
+import org.w3c.dom.ls.LSOutput;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class Mask {
     private List<Position> maskPositions;
     private MaskDirection direction;
     private int speed;
+    private Position numberPosition;
 
     //constructor
     public Mask(Position startPosition, int speed){
@@ -28,6 +30,7 @@ public class Mask {
         maskPositions.add(new Position(startPosition.x-1, startPosition.y));
         direction = MaskDirection.RIGHT;
         this.speed = speed;
+        numberPosition = new Position(0,0);
     }
 
 
@@ -38,6 +41,14 @@ public class Mask {
 
     public void setMaskPositions(List<Position> maskPositions) {
         this.maskPositions = maskPositions;
+    }
+
+    public Position getNumberPosition() {
+        return numberPosition;
+    }
+
+    public void setNumberPosition(Position numberPosition) {
+        this.numberPosition = numberPosition;
     }
 
     //instance methods
@@ -101,11 +112,22 @@ public class Mask {
             case UP:
                 newY=oldY-1;
         }
-        //
-
-        if ( ){
-
+        // check wall collision
+        for(Position pos : obstacles.getObstacles()) {
+            if (newX == pos.x  && newY == pos.y){
+                System.out.println("GAME OVER!");
+                return false;
+             }
         }
+
+        // check the collision with itself
+        for(Position pos : maskPositions) {
+            if (newX == pos.x  && newY == pos.y){
+                System.out.println("GAME OVER!");
+                return false;
+            }
+        }
+
         //add the new Mask position as the first element of the ArrayList
         maskPositions.add(0, new Position(newX, newY));
         if (maskPositions.size()>currentMaskLength){
@@ -120,6 +142,16 @@ public class Mask {
 
         }
         printMask(terminal);
+
+        if(numberPosition.x == newX && numberPosition.y == newY) {
+            if(Main.value == 9) {
+                System.out.println("YOU WON!!!");
+                return false;
+            }
+            Main.value++;
+            Main.generateNewNumber(Main.value, this, obstacles, terminal);
+            currentMaskLength *= 2;
+        }
 
         return true;
 

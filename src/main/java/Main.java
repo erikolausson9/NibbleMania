@@ -2,15 +2,14 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
-
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static int value = 1;
 
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         //initialize terminal
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
@@ -29,7 +28,7 @@ public class Main {
         Position position1 = new Position(10, 10);
         Mask mask = new Mask(position1, 100);
         mask.printMask(terminal);
-
+        generateNewNumber(1, mask, wallsLevel1, terminal);
 
         //gameplay loop
         while (continuePlaying) {
@@ -48,7 +47,7 @@ public class Main {
                 }
             }
 
-            continuePlaying = mask.moveMaskForward(terminal);
+            continuePlaying = mask.moveMaskForward(terminal, wallsLevel1);
 
             //check if the player wants to quit the game
             if (keyStrokeChar == Character.valueOf('q')) {
@@ -57,6 +56,40 @@ public class Main {
                 terminal.close();
             }
         }
+        terminal.close();
+    }
+
+    public static void generateNewNumber(int value, Mask mask, Obstacles obstacles, Terminal terminal) throws IOException {
+
+        Position numberPosition = null;
+        boolean positionOk = false;
+        while(!positionOk) {
+            positionOk = true;
+            numberPosition = new Position(ThreadLocalRandom.current().nextInt(0, 80), ThreadLocalRandom.current().nextInt(0, 24));
+
+            // check wall collision
+            for(Position pos : obstacles.getObstacles()) {
+                if (numberPosition.x == pos.x  && numberPosition.y == pos.y){
+                    positionOk = false;
+                    break;
+                }
+            }
+
+            // check the collision with itself
+            for(Position pos : mask.getMaskPositions()) {
+                if (numberPosition.x == pos.x  && numberPosition.y == pos.y){
+                    positionOk = false;
+                    break;
+                }
+            }
+        }
+
+        mask.setNumberPosition(numberPosition);
+
+        // printing numbers
+        terminal.setCursorPosition(numberPosition.x, numberPosition.y);
+        terminal.putCharacter((char)(value + '0'));
+        terminal.flush();
 
     }
 

@@ -7,7 +7,6 @@ import com.googlecode.lanterna.terminal.Terminal;
 //import javax.sound.sampled.*;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -34,8 +33,10 @@ public class Main {
 
         terminal.setCursorVisible(false);
 
-        //initialize start screen
-        StartScreen run = new StartScreen(terminal);
+        //initialize screen
+        Screen screen = new Screen(terminal);
+
+        screen.startScreen(terminal);
 
         //display score
         terminal.setCursorPosition(terminal.getTerminalSize().getColumns()-14, 0);

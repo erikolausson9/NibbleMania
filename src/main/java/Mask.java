@@ -14,7 +14,7 @@ public class Mask {
 
 
     //instance variables
-    final char player = '\u25A0';
+    final char PLAYER = '\u2588';
     private final int initialMaskLength = 2;
     private List<Position> maskPositions;
     private MaskDirection direction;
@@ -46,7 +46,7 @@ public class Mask {
 
         for(Position pos: maskPositions){
             terminal.setCursorPosition(pos.x, pos.y);
-            terminal.putCharacter(player);
+            terminal.putCharacter(PLAYER);
         }
         terminal.flush();
 

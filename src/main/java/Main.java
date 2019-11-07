@@ -3,7 +3,6 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
-import javax.swing.text.Position;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -23,8 +22,12 @@ public class Main {
         char keyStrokeChar = ' ';
         boolean continuePlaying = true;
 
+        //initialize wallsLevel1
+        Obstacles wallsLevel1 = new Obstacles(terminal);
+
         //initialize mask
-        Mask mask = new Mask(new Position(10, 10), 100);
+        Position position1 = new Position(10, 10);
+        Mask mask = new Mask(position1, 100);
         mask.printMask(terminal);
 
 

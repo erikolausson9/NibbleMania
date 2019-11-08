@@ -75,18 +75,20 @@ public class Screen {
                 if(c!=null) {
                     if (c == '1') {
                         terminal.clearScreen();
-                        return false;
+                        Main.twoPlayers = false;
+                        break;
                     } else if (c == '2') {
                         terminal.clearScreen();
-                        return true;
+                        Main.twoPlayers = true;
+                        break;
                     } else if (c == 'q') {
                         System.out.println("quit");
                         terminal.close();
-                        break;
+                        return false;
                     }
                 }
             }
-            return false;
+            return true;
         }
 
         //Screen asking if AI-bot.
@@ -124,14 +126,14 @@ public class Screen {
 
             KeyType type = keyStroke.getKeyType();
             Character c = keyStroke.getCharacter();
-            System.out.println(c);
+            System.out.println("rad 127" + c);
             System.out.println(type);
 
-            //Return false for no Bot and true for Bot
-            if (c == 'n') {
+            //set variable includeBot to true or false
+            if (c!=null && c == 'n') {
                 includeBot = false;
                 break;
-            } else if (c == 'y') {
+            } else if (c != null && c == 'y') {
                 includeBot = true;
                 break;
             } else {
@@ -168,10 +170,10 @@ public class Screen {
 
             KeyType type = keyStroke.getKeyType();
             Character c = keyStroke.getCharacter();
-            System.out.println(c);
+            System.out.println("rad 171" + c);
             System.out.println(type);
 
-            //Returns different values for speed (= time in milli seconds for process to sleep)
+            //Returns different values for speed (= time in milliseconds for process to sleep)
             switch (c){
                 case '1':
                     speed = 200;
@@ -296,7 +298,7 @@ public class Screen {
 
             KeyType type = keyStroke.getKeyType();
             Character c = keyStroke.getCharacter();
-            System.out.println(c);
+            System.out.println("rad 299" + c);
             System.out.println(type);
 
             if(type == KeyType.Enter){
@@ -357,8 +359,8 @@ public class Screen {
 
             KeyType type = keyStroke.getKeyType();
             Character c = keyStroke.getCharacter();
-            System.out.println(c);
-            System.out.println(type);
+            //System.out.println(" trying to quit" + c);
+            //System.out.println(type);
 
             if(c !=null && c == 'q'){
                 System.out.println("quit");

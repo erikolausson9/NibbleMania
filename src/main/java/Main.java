@@ -17,7 +17,7 @@ public class Main {
     public static int pointsToWin = 3;
     public static final int TOPOFPlAYINGFIELD=1;
 
-    public static int speed = 90;
+    public static int speed;
     public static final TextColor WHITE = new TextColor.RGB(255, 255, 255);
     public static final TextColor PLAYERONE_COLOR = new TextColor.RGB(255, 0, 0); //make the player one mask red
     public static final TextColor PLAYERTWO_COLOR = new TextColor.RGB(0, 255, 0); //make the player two mask green
@@ -40,7 +40,9 @@ public class Main {
         //initialize screen and ask for 1 or 2 players
         twoPlayers = true;
         Screen screen = new Screen(terminal); //initialize new screen object
-        twoPlayers = screen.startScreen(terminal); //method call to start screen
+        if(!screen.startScreen(terminal)){ ////method call to start screen. Returns false if player wants to quit game.
+            return;
+        }
 
         //initialize screen to ask if player(s) want bot opponent. Return true if bot.
         boolean includeBot;

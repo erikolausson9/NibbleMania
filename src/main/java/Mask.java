@@ -163,7 +163,6 @@ public class Mask {
         // check for obstacle collision
         for(Position pos : obstacles.getObstacles()) {
             if (newX == pos.x  && newY == pos.y){
-                //System.out.println("GAME OVER!");
                 if(this instanceof BotMask){
                     //if botMask has collided, stop its movements but continue game
                     movement=0;
@@ -177,7 +176,6 @@ public class Mask {
         for(Mask mask: maskar){
             for(Position pos : mask.getMaskPositions()) {
                 if (newX == pos.x  && newY == pos.y){
-                    //System.out.println("GAME OVER!");
                     if(this instanceof BotMask){
                         //if the botMask has collided, stop its movements but continue game
                         movement=0;
@@ -217,15 +215,16 @@ public class Mask {
 
             //check to see if mask has eaten the final number
             if(Main.value == Main.pointsToWin) {
-                System.out.println("YOU WON!!!");
 
-                //play victory
-                String victorySound = "Victory.wav";
-                SoundPlayer soundPlayer = new SoundPlayer();
-
-                soundPlayer.playSound(victorySound);
-                Main.value++;
-
+                if(this instanceof BotMask){
+                    System.out.println("GAME OVER");
+                }
+                else {
+                    //play victory
+                    String victorySound = "Victory.wav";
+                    SoundPlayer soundPlayer = new SoundPlayer();
+                    soundPlayer.playSound(victorySound);
+                }
                 return false;
             }
             //mask has eaten a number but not the final number. Update score and generate a new number to catch

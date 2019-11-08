@@ -37,7 +37,7 @@ public class Main {
 
         //initialize screen and ask for 1 or 2 players
         twoPlayers = true;
-        boolean includeBot = true;
+        //boolean includeBot = true;
         Screen screen = new Screen(terminal); //initialize new screen object
         twoPlayers = screen.startScreen(terminal); //method call to start screen
 
@@ -114,7 +114,7 @@ public class Main {
                 KeyType keyType = keyStroke.getKeyType();
                 if (keyStroke.getCharacter() != null) {
                     keyStrokeChar = keyStroke.getCharacter();
-                    System.out.println("character: " + keyStrokeChar);
+                    //System.out.println("character: " + keyStrokeChar);
                     //Player two uses characters to change direction of the mask
                     if(twoPlayers){
                         mask2.changeDirectionPlayerTwo(keyStrokeChar);
@@ -139,7 +139,7 @@ public class Main {
             //handle movement of the botMask
             if(includeBot){
                 botMask.setDirection();
-                botMask.moveMaskForward(terminal, wallsLevel1, maskar);
+                continuePlaying = botMask.moveMaskForward(terminal, wallsLevel1, maskar);
             }
 
             //check if the player wants to quit the game

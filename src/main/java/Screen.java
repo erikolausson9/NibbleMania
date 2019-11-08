@@ -186,7 +186,7 @@ public class Screen {
 
     public void endScreen(Terminal terminal) throws IOException, InterruptedException {
 
-            if(Main.value == Main.pointsToWin+1){
+            if(Main.value == Main.pointsToWin){
                 String row1 = "You won the game!";
                 int row1Length = row1.toCharArray().length;
 

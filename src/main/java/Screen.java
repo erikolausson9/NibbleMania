@@ -3,6 +3,8 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.Terminal;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +23,10 @@ public class Screen {
             this.terminalRows = terminal.getTerminalSize().getRows();
         }
 
-        public boolean startScreen(Terminal terminal) throws IOException, InterruptedException {
+        public boolean startScreen(Terminal terminal) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
+
+
+
             String row1 = "Welcome to Nibble Mania!";
             int row1Length = row1.toCharArray().length;
 
@@ -43,6 +48,13 @@ public class Screen {
             for (char c : row3.toCharArray()) {
                 terminal.putCharacter(c);
             }
+
+            terminal.flush();
+
+            //play intro sound
+            String intro = "NewHopeIntro.wav";
+            SoundPlayer soundPlayer2 = new SoundPlayer();
+            soundPlayer2.playSound(intro);
 
             KeyStroke keyStroke = null;
 
@@ -175,7 +187,7 @@ public class Screen {
         return speed;
     }
 
-    public void instructionsScreen(Terminal terminal) throws IOException, InterruptedException {
+    public void instructionsScreen(Terminal terminal) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
 
         String row1 = "Instructions";
         int row1Length = row1.toCharArray().length;
@@ -293,6 +305,8 @@ public class Screen {
 
 
     public void endScreen(Terminal terminal) throws IOException, InterruptedException {
+
+            terminal.setForegroundColor(Main.WHITE);
 
             if(Main.value == Main.pointsToWin){
                 String row1 = "You won the game!";

@@ -23,13 +23,15 @@ public class Screen {
             this.terminalRows = terminal.getTerminalSize().getRows();
         }
 
+        //Start screen
         public boolean startScreen(Terminal terminal) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
 
 
-
+        //Print stuff to screen
             String row1 = "Welcome to Nibble Mania!";
             int row1Length = row1.toCharArray().length;
 
+            //To center text: split num of columns by 2 and length on string to be printed.
             terminal.setCursorPosition((terminalColumns/2 - row1Length/2), terminalRows-15);
             for (char c : row1.toCharArray()) {
                 terminal.putCharacter(c);
@@ -56,8 +58,8 @@ public class Screen {
             SoundPlayer soundPlayer2 = new SoundPlayer();
             soundPlayer2.playSound(intro);
 
+            //Check for user input (number of players)
             KeyStroke keyStroke = null;
-
             while(true){
 
                 do{
@@ -70,7 +72,7 @@ public class Screen {
                 System.out.println(c);
                 System.out.println(type);
 
-
+                //Return true for 2 players and false for only 1 player.
                 if(c == '1'){
                     terminal.clearScreen();
                     return false;
@@ -88,6 +90,7 @@ public class Screen {
             }
         }
 
+        //Screen asking if AI-bot.
     public boolean botOrHumanOpponent(Terminal terminal) throws IOException, InterruptedException {
 
         String row1 = "Would you like to include a furious AI-controlled predator worm?";
@@ -111,6 +114,7 @@ public class Screen {
         boolean includeBot = false;
         KeyStroke keyStroke = null;
 
+        //Check for user input
         while (true) {
 
             do {
@@ -124,6 +128,7 @@ public class Screen {
             System.out.println(c);
             System.out.println(type);
 
+            //Return false for no Bot and true for Bot
             if (c == 'n') {
                 includeBot = false;
                 break;
@@ -138,7 +143,7 @@ public class Screen {
         return includeBot;
     }
 
-
+    //Screen for selecting difficulty
     public int selectDifficulty(Terminal terminal) throws IOException, InterruptedException {
 
         String row1 = "Select difficulty: 1, 2 or 3 (3 is harder).";
@@ -151,6 +156,7 @@ public class Screen {
 
         terminal.flush();
 
+        //User input
         KeyStroke keyStroke = null;
         int speed = 200;
 
@@ -166,6 +172,7 @@ public class Screen {
             System.out.println(c);
             System.out.println(type);
 
+            //Returns different values for speed (= time in milli seconds for process to sleep)
             switch (c){
                 case '1':
                     speed = 200;
@@ -187,6 +194,7 @@ public class Screen {
         return speed;
     }
 
+    //Print instructions
     public void instructionsScreen(Terminal terminal) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
 
         String row1 = "Instructions";

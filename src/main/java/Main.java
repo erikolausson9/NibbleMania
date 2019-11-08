@@ -34,12 +34,19 @@ public class Main {
 
         terminal.setCursorVisible(false);
 
-        //initialize screen and ask for 1 or 2 players
-        boolean twoPlayers = true;
+        //initialize Screen
         Screen screen = new Screen(terminal); //initialize new screen object
+
+        //initialize start screen and ask for 1 or 2 players
+        boolean twoPlayers = true;
         twoPlayers = screen.startScreen(terminal); //method call to start screen
 
-        //Initialize new screen to ask for user input about game difficulty. Return speed value. 
+        //initialize screen to ask for bot or human opponent. Return true if bot.
+        boolean includeBot = false;
+        includeBot = screen.botOrHumanOpponent(terminal);
+
+
+        //Initialize screen to ask for user input about game difficulty. Return speed value.
         speed = screen.selectDifficulty(terminal);
 
         //display score

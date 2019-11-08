@@ -39,7 +39,8 @@ public class Main {
         Screen screen = new Screen(terminal); //initialize new screen object
         twoPlayers = screen.startScreen(terminal); //method call to start screen
 
-        screen.selectDifficulty(terminal);
+        //Initialize new screen to ask for user input about game difficulty. Return speed value. 
+        speed = screen.selectDifficulty(terminal);
 
         //display score
         terminal.setForegroundColor(WHITE);

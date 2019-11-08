@@ -1,10 +1,14 @@
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-    public class Screen {
+public class Screen {
 
         //instance variables
         private int terminalColumns;
@@ -17,7 +21,7 @@ import java.io.IOException;
             this.terminalRows = terminal.getTerminalSize().getRows();
         }
 
-        public void startScreen(Terminal terminal) throws IOException, InterruptedException {
+        public boolean startScreen(Terminal terminal) throws IOException, InterruptedException {
             String row1 = "Welcome to Nibble Mania!";
             int row1Length = row1.toCharArray().length;
 
@@ -26,7 +30,7 @@ import java.io.IOException;
                 terminal.putCharacter(c);
             }
 
-            String row2 = "Press enter to start new game";
+            String row2 = "Press 1 or 2 to start a new game with one or two players";
             int row2Length = row2.toCharArray().length;
             terminal.setCursorPosition((terminalColumns/2 - row2Length/2),terminalRows-12);
             for (char c : row2.toCharArray()) {
@@ -54,10 +58,17 @@ import java.io.IOException;
                 System.out.println(c);
                 System.out.println(type);
 
-                if(type == KeyType.Enter){
+
+                if(c == '1'){
                     terminal.clearScreen();
-                    break;
+                    return false;
                 }
+
+                else if(c == '2'){
+                    terminal.clearScreen();
+                    return true;
+                }
+
                 else if(c == 'q'){
                     System.out.println("quit");
                     terminal.close();
@@ -65,4 +76,60 @@ import java.io.IOException;
             }
         }
 
+    public void endScreen(Terminal terminal) throws IOException, InterruptedException {
+
+            if(Main.value == Main.pointsToWin+1){
+                String row1 = "You won the game!";
+                int row1Length = row1.toCharArray().length;
+
+                terminal.setCursorPosition((terminalColumns/2 - row1Length/2), terminalRows-15);
+                for (char c : row1.toCharArray()) {
+                    terminal.putCharacter(c);
+                }
+            }
+
+            else{
+                String row1 = "Game over!";
+                int row1Length = row1.toCharArray().length;
+
+                terminal.setCursorPosition((terminalColumns/2 - row1Length/2), terminalRows-15);
+                for (char c : row1.toCharArray()) {
+                    terminal.putCharacter(c);
+                }
+
+            }
+
+
+        String row2 = "Press Q to Quit game";
+        int row2Length = row2.toCharArray().length;
+        terminal.setCursorPosition((terminalColumns/2 - row2Length/2),terminalRows-12);
+        for (char c : row2.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        terminal.flush();
+
+        KeyStroke keyStroke = null;
+
+        while(true){
+
+            do{
+                Thread.sleep(5);
+                keyStroke = terminal.pollInput();
+            } while (keyStroke == null);
+
+            KeyType type = keyStroke.getKeyType();
+            Character c = keyStroke.getCharacter();
+            System.out.println(c);
+            System.out.println(type);
+
+            if(c == 'q'){
+                System.out.println("quit");
+                terminal.close();
+                }
+
+            }
+        }
+
     }
+

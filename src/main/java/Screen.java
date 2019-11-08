@@ -78,7 +78,7 @@ public class Screen {
 
     public boolean botOrHumanOpponent(Terminal terminal) throws IOException, InterruptedException {
 
-        String row1 = "Choose your opponent:";
+        String row1 = "Would you like to include a furious AI-controlled predator worm?";
         int row1Length = row1.toCharArray().length;
 
         terminal.setCursorPosition((terminalColumns / 2 - row1Length / 2), terminalRows - 14);
@@ -86,19 +86,11 @@ public class Screen {
             terminal.putCharacter(c);
         }
 
-        String row2 = "Press 1 for a human opponent";
+        String row2 = "Yes/No?";
         int row2Length = row2.toCharArray().length;
 
         terminal.setCursorPosition((terminalColumns / 2 - row2Length / 2), terminalRows - 12);
         for (char c : row2.toCharArray()) {
-            terminal.putCharacter(c);
-        }
-
-        String row3 = "Press 2 for a furious predator bot";
-        int row3Length = row3.toCharArray().length;
-
-        terminal.setCursorPosition((terminalColumns / 2 - row3Length / 2), terminalRows - 11);
-        for (char c : row3.toCharArray()) {
             terminal.putCharacter(c);
         }
 
@@ -120,10 +112,10 @@ public class Screen {
             System.out.println(c);
             System.out.println(type);
 
-            if (c == '1') {
+            if (c == 'n') {
                 includeBot = false;
                 break;
-            } else if (c == '2') {
+            } else if (c == 'y') {
                 includeBot = true;
                 break;
             } else {
@@ -183,6 +175,122 @@ public class Screen {
         return speed;
     }
 
+    public void instructionsScreen(Terminal terminal) throws IOException, InterruptedException {
+
+        String row1 = "Instructions";
+        int row1Length = row1.toCharArray().length;
+
+        terminal.setCursorPosition((terminalColumns/2 - row1Length/2), terminalRows-18);
+        for (char c : row1.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        String row2 = "Player 1:";
+        int row2Length = row2.toCharArray().length;
+        terminal.setCursorPosition((terminalColumns/3 - row2Length/2),terminalRows-12);
+        for (char c : row2.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        String row3 = "UP: ArrowUp";
+        int row3Length = row3.toCharArray().length;
+        terminal.setCursorPosition((terminalColumns/3 - row3Length/2),terminalRows-10);
+        for (char c : row3.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        String row4 = "Down: ArrowDown";
+        int row4Length = row4.toCharArray().length;
+        terminal.setCursorPosition((terminalColumns/3 - row4Length/2),terminalRows-9);
+        for (char c : row4.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        String row5 = "Left: ArrowLeft";
+        int row5Length = row5.toCharArray().length;
+        terminal.setCursorPosition((terminalColumns/3 - row5Length/2),terminalRows-8);
+        for (char c : row5.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        String row6 = "Right: ArrowRight";
+        int row6Length = row6.toCharArray().length;
+        terminal.setCursorPosition((terminalColumns/3 - row6Length/2),terminalRows-7);
+        for (char c : row6.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        //Instructions for player 2:
+        String row7 = "Player 2:";
+        int row7Length = row2.toCharArray().length;
+        terminal.setCursorPosition((2*terminalColumns/3 - row7Length/2),terminalRows-12);
+        for (char c : row7.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        String row8 = "UP: W";
+        int row8Length = row8.toCharArray().length;
+        terminal.setCursorPosition((2*terminalColumns/3 - row8Length/2),terminalRows-10);
+        for (char c : row8.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        String row9 = "Down: S";
+        int row9Length = row9.toCharArray().length;
+        terminal.setCursorPosition((2*terminalColumns/3 - row9Length/2),terminalRows-9);
+        for (char c : row9.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        String row10 = "Left: A";
+        int row10Length = row10.toCharArray().length;
+        terminal.setCursorPosition((2*terminalColumns/3 - row10Length/2),terminalRows-8);
+        for (char c : row10.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        String row11 = "Right: D";
+        int row11Length = row11.toCharArray().length;
+        terminal.setCursorPosition((2*terminalColumns/3 - row11Length/2),terminalRows-7);
+        for (char c : row11.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        //How to start game
+        String row12 = "Press Enter to start";
+        int row12Length = row12.toCharArray().length;
+        terminal.setCursorPosition((terminalColumns/2 - row12Length/2),terminalRows-5);
+        for (char c : row12.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        terminal.flush();
+
+        KeyStroke keyStroke = null;
+
+        while(true){
+
+            do{
+                Thread.sleep(5);
+                keyStroke = terminal.pollInput();
+            } while (keyStroke == null);
+
+            KeyType type = keyStroke.getKeyType();
+            Character c = keyStroke.getCharacter();
+            System.out.println(c);
+            System.out.println(type);
+
+            if(type == KeyType.Enter){
+                terminal.clearScreen();
+
+                break;
+            }
+
+        }
+
+    }
+
+
 
     public void endScreen(Terminal terminal) throws IOException, InterruptedException {
 
@@ -238,7 +346,6 @@ public class Screen {
 
             }
         }
-
 
 }
 

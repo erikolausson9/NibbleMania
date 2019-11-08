@@ -37,7 +37,6 @@ public class Main {
 
         //initialize screen and ask for 1 or 2 players
         twoPlayers = true;
-        boolean includeBot = false;
         Screen screen = new Screen(terminal); //initialize new screen object
         twoPlayers = screen.startScreen(terminal); //method call to start screen
 
@@ -48,6 +47,9 @@ public class Main {
 
         //Initialize screen to ask for user input about game difficulty. Return speed value.
         speed = screen.selectDifficulty(terminal);
+
+        //Initialize screen with instructions.
+        screen.instructionsScreen(terminal);
 
         //display initial score for player one
         terminal.setForegroundColor(PLAYERONE_COLOR);

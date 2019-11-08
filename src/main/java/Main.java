@@ -27,7 +27,7 @@ public class Main {
 
 
 
-    public static void main(String[] args) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException, LineUnavailableException, UnsupportedAudioFileException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
 
         //initialize terminal
@@ -140,7 +140,7 @@ public class Main {
             }
 
             //handle movement of the botMask
-            if(includeBot){
+            if(includeBot && continuePlaying){
                 botMask.setDirection();
                 continuePlaying = botMask.moveMaskForward(terminal, wallsLevel1, maskar);
             }

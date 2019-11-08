@@ -37,7 +37,6 @@ public class Main {
 
         //initialize screen and ask for 1 or 2 players
         twoPlayers = true;
-
         Screen screen = new Screen(terminal); //initialize new screen object
         twoPlayers = screen.startScreen(terminal); //method call to start screen
 
@@ -48,6 +47,17 @@ public class Main {
 
         //Initialize screen to ask for user input about game difficulty. Return speed value.
         speed = screen.selectDifficulty(terminal);
+
+        //adjust speed according to total number of worms
+        if(twoPlayers && includeBot){
+            speed /= 2.5;
+        }
+        else if(twoPlayers){
+            speed /= 2;
+        }
+        else if(includeBot){
+            speed /= 2;
+        }
 
         //Initialize screen with instructions.
         screen.instructionsScreen(terminal);

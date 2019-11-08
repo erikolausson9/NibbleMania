@@ -36,7 +36,7 @@ public class Obstacles {
     }
 
     private void printObstacles(Terminal terminal) throws IOException {
-
+        terminal.setForegroundColor(Main.WHITE);
         for (Position p: obstacles){
             terminal.setCursorPosition(p.x, p.y);
             terminal.putCharacter(WALL);

@@ -18,14 +18,18 @@ PRODUCT BACKLOG:
 PRIO 1:
 
 - fixa buggar: quit från startskärmen
-- se till att man hör hela victory-soundet
-- skapa skärmklass så att vi kan lägga till du vann-skärm och du förlorade-skärm.
+- gör det möjligt att välja två spelare, en spelare och botMask eller två spelare och botMask.
+- fixa poängräkningen för två spelare och så att inte botMasken ger dig poäng
+- fixa så att inte botMasken gör att du kan vinna
+
+
 -Textrutor: start ink. möjlighet att välja hastighet(nivå) (låt poängen bero på nivå, dvs om man har högre hastighet på masken får man högre poäng per uppäten siffra).
 -Spelarnivå: ställa in hur snabbt masken ska röra sig från början
 
 -Musik/ljudeffekter: start + game over
 -Ljudeffekter: när masken "dör"
 -Ljudeffekter: när masken "äter
+- Intromusik till startskärmen
 
 
 
@@ -34,7 +38,7 @@ PRIO 2:
 
 -Pausmöjlighet (space-tangent)
 
-- två spelare
+
 
 
 PRIO 3:
@@ -57,6 +61,9 @@ PRIO 4:
 
 AVCHECKAT
 
+- skapa skärmklass så att vi kan lägga till du vann-skärm och du förlorade-skärm.
+- två spelare
+- se till att man hör hela victory-soundet
 Skapa klasser:
 -Spelplan/Hinder/Väggar
 -Position (x-variabel samt en y-variabel)

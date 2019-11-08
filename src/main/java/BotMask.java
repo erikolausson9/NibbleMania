@@ -9,17 +9,18 @@ public class BotMask extends Mask {
 
     //instance methods
     public void setDirection(){
+        //find the position of the number we want to catch
         int goalX = getNumberPosition().x;
         int goalY = getNumberPosition().y;
 
         int currentX = getMaskPositions().get(0).x;
         int currentY = getMaskPositions().get(0).y;
 
-        //System.out.printf("goalx %d, goaly %d, currentx %d, currenty %d \n", goalX, goalY, currentX, currentY);
 
         switch(direction){
             case UP:
             case DOWN:
+                //if botMask is moving up or down: change direction based on where we want to go in the horizontal direction
                 if(currentX>goalX){
                     direction = MaskDirection.LEFT;
                 }
@@ -29,6 +30,7 @@ public class BotMask extends Mask {
                 break;
             case LEFT:
             case RIGHT:
+                //if botMask is moving up or down: change direction based on where we want to go in the vertical direction
                 if(currentY>goalY){
                     direction = MaskDirection.UP;
                 }

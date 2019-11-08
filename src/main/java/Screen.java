@@ -76,7 +76,7 @@ public class Screen {
             }
         }
 
-    public void selectDifficulty(Terminal terminal) throws IOException, InterruptedException {
+    public int selectDifficulty(Terminal terminal) throws IOException, InterruptedException {
 
         String row1 = "Select difficulty: 1, 2 or 3 (3 is harder).";
         int row1Length = row1.toCharArray().length;
@@ -89,6 +89,7 @@ public class Screen {
         terminal.flush();
 
         KeyStroke keyStroke = null;
+        int speed = 200;
 
         while(true){
 
@@ -103,23 +104,23 @@ public class Screen {
             System.out.println(type);
 
             switch (c){
-                case 1:
-                    Main.speed = 200;
+                case '1':
+                    speed = 200;
                     break;
-                case 2:
-                    Main.speed = 300;
+                case '2':
+                    speed = 100;
                     break;
-                case 3:
-                    Main.speed = 500;
+                case '3':
+                    speed = 50;
                     break;
                 default:
-                    Main.speed = 250;
+
             }
+
             terminal.clearScreen();
             break;
         }
-
-
+        return speed;
     }
 
     public void endScreen(Terminal terminal) throws IOException, InterruptedException {

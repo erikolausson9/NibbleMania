@@ -16,36 +16,35 @@ import java.util.List;
 public class Mask {
 
 
-
     //instance variables
-    final char PLAYER = '\u2588';
+    final char PLAYER = '\u2588'; //block used to represent parts of mask as well as obstacles
     private final int initialMaskLength = 2;
     public int currentMaskLength = initialMaskLength;
     private List<Position> maskPositions;
-    protected MaskDirection direction;
+    protected MaskDirection direction; //used by botMask as well
     private int speed;
     private Position numberPosition;
     private TextColor color;
-
-    public int getScore() {
-        return score;
-    }
-
     private int score = 0;
+    private int movement = 1;
 
-    //constructor
+    //constructor. Arguments are: starting position of mask, speed of mask and color of mask
     public Mask(Position startPosition, int speed, TextColor color){
         maskPositions= new ArrayList<>(initialMaskLength);
         maskPositions.add(startPosition);
-        maskPositions.add(new Position(startPosition.x-1, startPosition.y));
-        direction = MaskDirection.RIGHT;
+        maskPositions.add(new Position(startPosition.x-1, startPosition.y)); //mask will start off along the horizontal axis
+        direction = MaskDirection.RIGHT; //default initial direction of movement
         this.speed = speed;
-        numberPosition = new Position(0,0);
+        numberPosition = new Position(0,0); //this variable will be changed by the GenerateNewNumber method in the Main class
         this.color = color;
     }
 
 
     //getters and setters
+
+    public int getScore(){
+        return score;
+    }
     public List<Position> getMaskPositions() {
         return maskPositions;
     }
@@ -78,7 +77,7 @@ public class Mask {
 
     }
     public void changeDirectionPlayerOne(KeyType type){
-
+        //player one uses arrow keys, therefore the input to this method is a KeyType object
         switch(type){
             case ArrowUp:
                 if(direction==MaskDirection.LEFT || direction==MaskDirection.RIGHT) {
@@ -105,7 +104,7 @@ public class Mask {
         }
 
     }    public void changeDirectionPlayerTwo(char keyStrokeChar){
-
+        //player two uses characters s, w, a and d to change direction. Therefore, the input to this method is a char
         switch(keyStrokeChar){
             case 's':
                 if(direction==MaskDirection.LEFT || direction==MaskDirection.RIGHT) {
@@ -135,6 +134,8 @@ public class Mask {
 
     public boolean moveMaskForward(Terminal terminal, Obstacles obstacles, ArrayList<Mask> maskar)
             throws InterruptedException, IOException, LineUnavailableException, UnsupportedAudioFileException {
+        //this method will return true if the mask could move forward without colliding with anything
+        //and false if the mask collides with something, or has eaten the last number
 
         Thread.sleep(speed);
 
@@ -148,21 +149,26 @@ public class Mask {
         //set new position depending on the direction of the mask
         switch (direction){
             case RIGHT:
-                newX = oldX+1;
+                newX = oldX+movement;
                 break;
             case LEFT:
-                newX = oldX-1;
+                newX = oldX-movement;
                 break;
             case DOWN:
-                newY= oldY+1;
+                newY= oldY+movement;
                 break;
             case UP:
-                newY=oldY-1;
+                newY=oldY-movement;
         }
-        // check wall collision
+        // check for obstacle collision
         for(Position pos : obstacles.getObstacles()) {
             if (newX == pos.x  && newY == pos.y){
-                System.out.println("GAME OVER!");
+                //System.out.println("GAME OVER!");
+                if(this instanceof BotMask){
+                    //if botMask has collided, stop its movements but continue game
+                    movement=0;
+                    return true;
+                }
                 return false;
              }
         }
@@ -171,7 +177,12 @@ public class Mask {
         for(Mask mask: maskar){
             for(Position pos : mask.getMaskPositions()) {
                 if (newX == pos.x  && newY == pos.y){
-                    System.out.println("GAME OVER!");
+                    //System.out.println("GAME OVER!");
+                    if(this instanceof BotMask){
+                        //if the botMask has collided, stop its movements but continue game
+                        movement=0;
+                        return true;
+                    }
                     return false;
                 }
             }
@@ -180,14 +191,17 @@ public class Mask {
 
         //add the new Mask position as the first element of the ArrayList
         maskPositions.add(0, new Position(newX, newY));
+
+        //check if we want to start clearing the tail of the mask
         if (maskPositions.size()>currentMaskLength){
-            //platser vi vill sudda nedan:
-            int x= maskPositions.get(maskPositions.size()-1).x; //plocka ut värdet för x från array-elementet
-            int y= maskPositions.get(maskPositions.size()-1).y; //samma för y
+            //clear this position:
+            int x= maskPositions.get(maskPositions.size()-1).x; //extract the x-value of the last position of the mask
+            int y= maskPositions.get(maskPositions.size()-1).y; //same for y-value
 
             //put cursor where we want to clear
             terminal.setCursorPosition(x, y);
             terminal.putCharacter(' ');
+            //remove last position from the maskPositions ArrayList
             maskPositions.remove(maskPositions.size()-1);
 
         }
@@ -212,9 +226,9 @@ public class Mask {
                 soundPlayer.playSound(victorySound);
                 Main.value++;
 
-
                 return false;
             }
+            //mask has eaten a number but not the final number. Update score and generate a new number to catch
             score += Main.value *100;
             Main.updateScore(terminal);
             Main.value++;

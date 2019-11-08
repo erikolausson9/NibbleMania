@@ -37,7 +37,7 @@ public class Main {
 
         //initialize screen and ask for 1 or 2 players
         twoPlayers = true;
-        boolean includeBot = false;
+        boolean includeBot = true;
         Screen screen = new Screen(terminal); //initialize new screen object
         twoPlayers = screen.startScreen(terminal); //method call to start screen
 

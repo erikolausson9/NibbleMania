@@ -17,7 +17,7 @@ public class Main {
     public static int pointsToWin = 9;
     public static final int TOPOFPlAYINGFIELD=1;
     public static int score = 0;
-    public static int speed = 200;
+    public static int speed = 90;
     public static final TextColor WHITE = new TextColor.RGB(255, 255, 255);
     public static final TextColor PLAYERONE = new TextColor.RGB(255, 0, 0);
     public static final TextColor PLAYERTWO = new TextColor.RGB(0, 255, 0);

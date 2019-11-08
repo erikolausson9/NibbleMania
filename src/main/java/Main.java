@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Main {
 
     public static int value = 1;
-    public static int pointsToWin = 3;
+    public static int pointsToWin = 5;
     public static final int TOPOFPlAYINGFIELD=1;
 
     public static int speed;
@@ -92,15 +92,9 @@ public class Main {
             }
         }
 
-        //variables used in gameloop
-        KeyStroke keyStroke = null;
-        KeyType type = null;
-        char keyStrokeChar = ' ';
-        boolean continuePlaying = true;
 
 
-        //initialize walls for level 1
-        Obstacles wallsLevel1 = new Obstacles(terminal);
+
 
         //initialize mask player1
         Position position1 = new Position(50, 15);
@@ -120,69 +114,65 @@ public class Main {
 
         //initialize botMask
         Position position3 = new Position(30, 5);
-        BotMask botMask = new BotMask(position3, speed, BOTMASK_COLOR);
+        BotMask botMask = null;
+
         if(includeBot){
+            botMask = new BotMask(position3, speed, BOTMASK_COLOR);
             botMask.printMask(terminal);
             maskar.add(botMask);
         }
 
+
+        //initialize walls for level 1
+        Obstacles obstacles = new Obstacles(terminal);
         //generate random position without collisions for first number to catch
-        generateNewNumber(1, wallsLevel1, terminal);
+        generateNewNumber(1, obstacles, terminal);
+        gameLoop(maskar, obstacles, twoPlayers, botMask, terminal);
 
-        //gameplay loop
-        while (continuePlaying) {
+        //Show end game screen
+        screen.endScreen(terminal, playersWins);
 
-            //check for keystroke from user(s)
-            keyStroke = terminal.pollInput();
-            if (keyStroke != null) {
-                KeyType keyType = keyStroke.getKeyType();
-                if (keyStroke.getCharacter() != null) {
-                    keyStrokeChar = keyStroke.getCharacter();
-                    //System.out.println("character: " + keyStrokeChar);
-                    //Player two uses characters to change direction of the mask
-                    if(twoPlayers){
-                        mask2.changeDirectionPlayerTwo(keyStrokeChar);
-                    }
-                } else {
-                    //Player one uses arrow keys to change direction of the mask
-                    mask1.changeDirectionPlayerOne(keyType);
-                }
-            }
-
-
-
-            if(twoPlayers){
-                continuePlaying=mask1.moveMaskForward(terminal, wallsLevel1, maskar)
-                        && mask2.moveMaskForward(terminal, wallsLevel1, maskar) ;
-            }
-            else
-            {
-                continuePlaying = mask1.moveMaskForward(terminal, wallsLevel1, maskar);
-            }
-
-            //handle movement of the botMask
-            if(includeBot && continuePlaying){
-                botMask.setDirection();
-                continuePlaying = botMask.moveMaskForward(terminal, wallsLevel1, maskar);
-            }
-
-            //check if the player wants to quit the game
-            if (keyStrokeChar == Character.valueOf('q')) {
-                continuePlaying = false;
-                System.out.println("quit");
-                terminal.close();
-            }
-
-
-        }
         if(playersWins){
             String victorySound = "Victory.wav";
             SoundPlayer soundPlayer = new SoundPlayer();
             soundPlayer.playSound(victorySound);
+
+
+            //move on to level 2
+            terminal.clearScreen();
+            obstacles.generateLevelTwoObstacles();
+            //reinitialize mask(ar)
+            maskar.clear();
+            mask1 = new Mask(new Position(5, 5), speed, PLAYERONE_COLOR);
+            maskar.add(mask1);
+            mask1.printMask(terminal);
+            if(twoPlayers){
+                mask2 = new Mask(new Position(60, 15), speed, PLAYERTWO_COLOR);
+                maskar.add(mask2);
+                mask2.printMask(terminal);
+            }
+            if(includeBot){
+                botMask = new BotMask(new Position(30, 18), speed, BOTMASK_COLOR);
+                maskar.add(botMask);
+                botMask.printMask(terminal);
+            }
+
+            obstacles.printObstacles(terminal);
+            value = 1;
+            playersWins = false;
+            generateNewNumber(value, obstacles, terminal);
+            gameLoop(maskar, obstacles, twoPlayers, botMask, terminal);
+
+            screen.endScreen(terminal, playersWins);
+            if(playersWins) {
+                soundPlayer.playSound(victorySound);
+            }
+
         }
 
-        //Show end game screen
-        screen.endScreen(terminal, playersWins);
+
+
+
 
         terminal.close();
     }
@@ -229,6 +219,65 @@ public class Main {
         terminal.putCharacter((char)(value + '0'));
         terminal.flush();
     }
+
+
+    public static void gameLoop(ArrayList<Mask> maskar, Obstacles obstacles,
+                                boolean twoPlayers, BotMask botMask, Terminal terminal) throws IOException {
+        //variables used in gameloop
+        KeyStroke keyStroke = null;
+        KeyType type = null;
+        char keyStrokeChar = ' ';
+        boolean continuePlaying = true;
+
+        //gameplay loop
+        while (continuePlaying) {
+
+            //check for keystroke from user(s)
+            keyStroke = terminal.pollInput();
+            if (keyStroke != null) {
+                KeyType keyType = keyStroke.getKeyType();
+                if (keyStroke.getCharacter() != null) {
+                    keyStrokeChar = keyStroke.getCharacter();
+                    //System.out.println("character: " + keyStrokeChar);
+                    //Player two uses characters to change direction of the mask
+                    if(twoPlayers){
+                        maskar.get(1).changeDirectionPlayerTwo(keyStrokeChar);
+                    }
+                } else {
+                    //Player one uses arrow keys to change direction of the mask
+                    maskar.get(0).changeDirectionPlayerOne(keyType);
+                }
+            }
+
+
+
+            if(twoPlayers){
+                continuePlaying=maskar.get(0).moveMaskForward(terminal, obstacles, maskar)
+                        && maskar.get(1).moveMaskForward(terminal, obstacles, maskar) ;
+            }
+            else
+            {
+                continuePlaying = maskar.get(0).moveMaskForward(terminal, obstacles, maskar);
+            }
+
+            //handle movement of the botMask
+            if(botMask!=null && continuePlaying){
+                botMask.setDirection();
+                continuePlaying = botMask.moveMaskForward(terminal, obstacles, maskar);
+            }
+
+            //check if the player wants to quit the game
+            if (keyStrokeChar == Character.valueOf('q')) {
+                continuePlaying = false;
+                System.out.println("quit");
+                terminal.close();
+            }
+
+
+        }
+
+    }
+
 
 
     //method to update the score(s) shown at the top of the terminal. This method is called from the Mask class

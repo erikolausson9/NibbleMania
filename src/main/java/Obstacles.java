@@ -20,7 +20,7 @@ public class Obstacles {
         printObstacles(terminal);
     }
 
-    private void generateOuterWalls() {
+    public void generateOuterWalls() {
 
         for(int ii=0; ii<80; ii++){
             //create outer walls at top and bottom of screen
@@ -28,14 +28,23 @@ public class Obstacles {
             obstacles.add(new Position(ii, 23));
         }
         for(int ii=Main.TOPOFPlAYINGFIELD; ii<24; ii++){
-            //create outer walls at top and bottom of screen
+            //create outer walls at left and right edges of screen
             obstacles.add(new Position(0, ii));
             obstacles.add(new Position(79, ii));
         }
 
     }
 
-    private void printObstacles(Terminal terminal) throws IOException {
+    public void generateLevelTwoObstacles(){
+        for(int ii=0; ii<10; ii++){
+            obstacles.add(new Position(20, ii+5));
+            obstacles.add(new Position(40, ii+5));
+            obstacles.add(new Position(60, ii+5));
+
+        }
+    }
+
+    public void printObstacles(Terminal terminal) throws IOException {
         terminal.setForegroundColor(Main.WHITE);
         for (Position p: obstacles){
             terminal.setCursorPosition(p.x, p.y);

@@ -364,7 +364,7 @@ public class Screen {
 
             if(c !=null && c == 'q'){
                 System.out.println("quit");
-                terminal.close();
+                //terminal.close();
                 break;
                 }
 

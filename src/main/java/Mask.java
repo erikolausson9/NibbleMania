@@ -27,6 +27,12 @@ public class Mask {
     private Position numberPosition;
     private TextColor color;
 
+    public int getScore() {
+        return score;
+    }
+
+    private int score = 0;
+
     //constructor
     public Mask(Position startPosition, int speed, TextColor color){
         maskPositions= new ArrayList<>(initialMaskLength);
@@ -209,6 +215,7 @@ public class Mask {
 
                 return false;
             }
+            score += Main.value *100;
             Main.updateScore(terminal);
             Main.value++;
             Main.generateNewNumber(Main.value, obstacles, terminal);
@@ -219,4 +226,9 @@ public class Mask {
         return true;
 
     }
+
+
+
+
+
 }

@@ -71,23 +71,22 @@ public class Screen {
                 Character c = keyStroke.getCharacter();
                 System.out.println(c);
                 System.out.println(type);
-
-                //Return true for 2 players and false for only 1 player.
-                if(c == '1'){
-                    terminal.clearScreen();
-                    return false;
-                }
-
-                else if(c == '2'){
-                    terminal.clearScreen();
-                    return true;
-                }
-
-                else if(c == 'q'){
-                    System.out.println("quit");
-                    terminal.close();
+//Return true for 2 players and false for only 1 player.
+                if(c!=null) {
+                    if (c == '1') {
+                        terminal.clearScreen();
+                        return false;
+                    } else if (c == '2') {
+                        terminal.clearScreen();
+                        return true;
+                    } else if (c == 'q') {
+                        System.out.println("quit");
+                        terminal.close();
+                        break;
+                    }
                 }
             }
+            return false;
         }
 
         //Screen asking if AI-bot.
@@ -312,11 +311,11 @@ public class Screen {
 
 
 
-    public void endScreen(Terminal terminal) throws IOException, InterruptedException {
+    public void endScreen(Terminal terminal, boolean playersWin) throws IOException, InterruptedException {
 
             terminal.setForegroundColor(Main.WHITE);
 
-            if(Main.value == Main.pointsToWin){
+            if(playersWin){
                 String row1 = "You won the game!";
                 int row1Length = row1.toCharArray().length;
 
@@ -361,9 +360,10 @@ public class Screen {
             System.out.println(c);
             System.out.println(type);
 
-            if(c == 'q'){
+            if(c !=null && c == 'q'){
                 System.out.println("quit");
                 terminal.close();
+                break;
                 }
 
             }

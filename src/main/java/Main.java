@@ -24,10 +24,11 @@ public class Main {
     public static final TextColor BOTMASK_COLOR = new TextColor.RGB(0, 0, 255); //make the botmask blue
     public static ArrayList<Mask> maskar;
     public static boolean twoPlayers;
+    public static boolean playersWins;
 
 
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
 
 
         //initialize terminal
@@ -35,13 +36,14 @@ public class Main {
         Terminal terminal = terminalFactory.createTerminal();
         terminal.setCursorVisible(false);
 
+
         //initialize screen and ask for 1 or 2 players
         twoPlayers = true;
         Screen screen = new Screen(terminal); //initialize new screen object
         twoPlayers = screen.startScreen(terminal); //method call to start screen
 
-        //initialize screen to ask for bot or human opponent. Return true if bot.
-        boolean includeBot = false;
+        //initialize screen to ask if player(s) want bot opponent. Return true if bot.
+        boolean includeBot;
         includeBot = screen.botOrHumanOpponent(terminal);
 
 
@@ -61,6 +63,14 @@ public class Main {
 
         //Initialize screen with instructions.
         screen.instructionsScreen(terminal);
+
+        //display game title
+        terminal.setForegroundColor(WHITE);
+        String title = "NibbleMania";
+        terminal.setCursorPosition(terminal.getTerminalSize().getColumns()/2-title.length()/2, 0);
+        for(char c: title.toCharArray()){
+            terminal.putCharacter(c);
+        }
 
         //display initial score for player one
         terminal.setForegroundColor(PLAYERONE_COLOR);
@@ -99,7 +109,6 @@ public class Main {
         maskar.add(mask1);
 
         //initialize mask player2
-
         Position position2 = new Position(10, 10);
         Mask mask2 = new Mask(position2, speed, PLAYERTWO_COLOR);
         if(twoPlayers){
@@ -162,21 +171,16 @@ public class Main {
                 terminal.close();
             }
 
-            //check if player wants to pause game
-//            else if (keyStrokeChar == Character.valueOf('p')){
-//                System.out.println("Pausing game. Press p to resume");
-//                while(true){
-//                    keyStroke = terminal.pollInput();
-//                    if (keyStroke!=null && keyStroke.getCharacter() != null) {
-//
-//                        keyStrokeChar = keyStroke.getCharacter();
-//                        if(keyStrokeChar== Character.valueOf('p'));
-//                    }
-//                }
-//            }
+
         }
+        if(playersWins){
+            String victorySound = "Victory.wav";
+            SoundPlayer soundPlayer = new SoundPlayer();
+            soundPlayer.playSound(victorySound);
+        }
+
         //Show end game screen
-        screen.endScreen(terminal);
+        screen.endScreen(terminal, playersWins);
 
         terminal.close();
     }

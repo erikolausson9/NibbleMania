@@ -221,13 +221,15 @@ public class Mask {
             if(Main.value == Main.pointsToWin) {
 
                 if(this instanceof BotMask){
-                    System.out.println("GAME OVER");
+                    Main.playersWins = false;
+                    //System.out.println("GAME OVER");
                 }
                 else {
                     //play victory
-                    String victorySound = "Victory.wav";
-                    SoundPlayer soundPlayer = new SoundPlayer();
-                    soundPlayer.playSound(victorySound);
+//                    String victorySound = "Victory.wav";
+//                    SoundPlayer soundPlayer = new SoundPlayer();
+//                    soundPlayer.playSound(victorySound);
+                    Main.playersWins=true;
                 }
                 return false;
             }

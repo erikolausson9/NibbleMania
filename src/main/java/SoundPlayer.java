@@ -6,11 +6,16 @@ public class SoundPlayer {
 
 
     //instance methods
-    public void playSound(String filepath) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filepath));
-        Clip clip = AudioSystem.getClip();
-        clip.open(audioInputStream);
-        clip.start();
+    public void playSound(String filepath) {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filepath));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        }catch(Exception e){
+            System.out.println("Error in soundplayer: ");
+            e.printStackTrace();
+        }
 
     }
 

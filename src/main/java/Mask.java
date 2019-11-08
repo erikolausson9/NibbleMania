@@ -133,11 +133,15 @@ public class Mask {
     }
 
     public boolean moveMaskForward(Terminal terminal, Obstacles obstacles, ArrayList<Mask> maskar)
-            throws InterruptedException, IOException, LineUnavailableException, UnsupportedAudioFileException {
+            throws IOException {
         //this method will return true if the mask could move forward without colliding with anything
         //and false if the mask collides with something, or has eaten the last number
-
-        Thread.sleep(speed);
+        try {
+            Thread.sleep(speed);
+        } catch (InterruptedException e){
+            System.out.println("Error in moveMaskForward");
+            e.printStackTrace();
+        }
 
         //get the position of the head of the mask
         int oldX = maskPositions.get(0).x;

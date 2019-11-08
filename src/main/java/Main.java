@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Main {
 
     public static int value = 1;
-    public static int pointsToWin = 2;
+    public static int pointsToWin = 9;
     public static final int TOPOFPlAYINGFIELD=1;
     public static int score = 0;
     public static int speed = 200;
@@ -26,7 +26,6 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException, LineUnavailableException, UnsupportedAudioFileException {
 
 
-        boolean twoPlayers = true;
 
         //initialize terminal
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
@@ -35,10 +34,12 @@ public class Main {
 
         terminal.setCursorVisible(false);
 
-        //initialize screen
-        Screen screen = new Screen(terminal);
+        //initialize screen and ask for 1 or 2 players
+        boolean twoPlayers = true;
+        Screen screen = new Screen(terminal); //initialize new screen object
+        twoPlayers = screen.startScreen(terminal); //method call to start screen
 
-        twoPlayers = screen.startScreen(terminal);
+        screen.selectDifficulty(terminal);
 
         //display score
         terminal.setForegroundColor(WHITE);

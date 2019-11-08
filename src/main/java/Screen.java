@@ -76,6 +76,52 @@ public class Screen {
             }
         }
 
+    public void selectDifficulty(Terminal terminal) throws IOException, InterruptedException {
+
+        String row1 = "Select difficulty: 1, 2 or 3 (3 is harder).";
+        int row1Length = row1.toCharArray().length;
+
+        terminal.setCursorPosition((terminalColumns/2 - row1Length/2), terminalRows-12);
+        for (char c : row1.toCharArray()) {
+            terminal.putCharacter(c);
+        }
+
+        terminal.flush();
+
+        KeyStroke keyStroke = null;
+
+        while(true){
+
+            do{
+                Thread.sleep(5);
+                keyStroke = terminal.pollInput();
+            } while (keyStroke == null);
+
+            KeyType type = keyStroke.getKeyType();
+            Character c = keyStroke.getCharacter();
+            System.out.println(c);
+            System.out.println(type);
+
+            switch (c){
+                case 1:
+                    Main.speed = 200;
+                    break;
+                case 2:
+                    Main.speed = 300;
+                    break;
+                case 3:
+                    Main.speed = 500;
+                    break;
+                default:
+                    Main.speed = 250;
+            }
+            terminal.clearScreen();
+            break;
+        }
+
+
+    }
+
     public void endScreen(Terminal terminal) throws IOException, InterruptedException {
 
             if(Main.value == Main.pointsToWin+1){

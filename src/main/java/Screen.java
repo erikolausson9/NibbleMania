@@ -310,7 +310,7 @@ public class Screen {
     }
 
 
-
+    //initialize end screen
     public void endScreen(Terminal terminal, boolean playersWin) throws IOException, InterruptedException {
 
             terminal.setForegroundColor(Main.WHITE);

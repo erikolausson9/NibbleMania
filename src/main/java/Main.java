@@ -14,31 +14,31 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Main {
 
     public static int value = 1;
-    public static int pointsToWin = 9;
+    public static int pointsToWin = 3;
     public static final int TOPOFPlAYINGFIELD=1;
-    public static int score = 0;
+
     public static int speed = 90;
     public static final TextColor WHITE = new TextColor.RGB(255, 255, 255);
-    public static final TextColor PLAYERONE = new TextColor.RGB(255, 0, 0);
-    public static final TextColor PLAYERTWO = new TextColor.RGB(0, 255, 0);
+    public static final TextColor PLAYERONE_COLOR = new TextColor.RGB(255, 0, 0); //make the player one mask red
+    public static final TextColor PLAYERTWO_COLOR = new TextColor.RGB(0, 255, 0); //make the player two mask green
+    public static final TextColor BOTMASK_COLOR = new TextColor.RGB(0, 0, 255); //make the botmask blue
     public static ArrayList<Mask> maskar;
+    public static boolean twoPlayers;
+
+
 
     public static void main(String[] args) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException, LineUnavailableException, UnsupportedAudioFileException {
-
 
 
         //initialize terminal
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
         Terminal terminal = terminalFactory.createTerminal();
-
-
         terminal.setCursorVisible(false);
 
-        //initialize Screen
+        //initialize screen and ask for 1 or 2 players
+        twoPlayers = true;
+        boolean includeBot = false;
         Screen screen = new Screen(terminal); //initialize new screen object
-
-        //initialize start screen and ask for 1 or 2 players
-        boolean twoPlayers = true;
         twoPlayers = screen.startScreen(terminal); //method call to start screen
 
         //initialize screen to ask for bot or human opponent. Return true if bot.
@@ -49,23 +49,29 @@ public class Main {
         //Initialize screen to ask for user input about game difficulty. Return speed value.
         speed = screen.selectDifficulty(terminal);
 
-        //display score
-        terminal.setForegroundColor(WHITE);
+        //display initial score for player one
+        terminal.setForegroundColor(PLAYERONE_COLOR);
         terminal.setCursorPosition(terminal.getTerminalSize().getColumns()-14, 0);
-        String points = "Points: ";
-        points += Integer.toString(score);
+        String points = "Points: " + 0;
         for(char c : points.toCharArray()){
             terminal.putCharacter(c);
         }
 
+        //display initial score for player two (if there is one)
+        if(twoPlayers) {
+            terminal.setForegroundColor(PLAYERTWO_COLOR);
+            terminal.setCursorPosition(1, 0);
+            String points2 = "Points: " + 0;
+            for (char c : points2.toCharArray()) {
+                terminal.putCharacter(c);
+            }
+        }
 
-
-
+        //variables used in gameloop
         KeyStroke keyStroke = null;
         KeyType type = null;
         char keyStrokeChar = ' ';
         boolean continuePlaying = true;
-
 
 
         //initialize walls for level 1
@@ -73,22 +79,30 @@ public class Main {
 
         //initialize mask player1
         Position position1 = new Position(50, 15);
-        Mask mask1 = new Mask(position1, speed, PLAYERONE);
+        Mask mask1 = new Mask(position1, speed, PLAYERONE_COLOR);
         mask1.printMask(terminal);
 
         maskar = new ArrayList<>();
         maskar.add(mask1);
 
         //initialize mask player2
+
         Position position2 = new Position(10, 10);
-        BotMask mask2 = new BotMask(position2, speed, PLAYERTWO);
+        Mask mask2 = new Mask(position2, speed, PLAYERTWO_COLOR);
         if(twoPlayers){
          mask2.printMask(terminal);
          maskar.add(mask2);
         }
 
+        //initialize botMask
+        Position position3 = new Position(30, 5);
+        BotMask botMask = new BotMask(position3, speed, BOTMASK_COLOR);
+        if(includeBot){
+            botMask.printMask(terminal);
+            maskar.add(botMask);
+        }
 
-
+        //generate random position without collisions for first number to catch
         generateNewNumber(1, wallsLevel1, terminal);
 
         //gameplay loop
@@ -101,20 +115,17 @@ public class Main {
                 if (keyStroke.getCharacter() != null) {
                     keyStrokeChar = keyStroke.getCharacter();
                     System.out.println("character: " + keyStrokeChar);
-                    //call the Mask class and see if the direction should change
-
+                    //Player two uses characters to change direction of the mask
                     if(twoPlayers){
-                        //mask2.changeDirectionPlayerTwo(keyStrokeChar);
+                        mask2.changeDirectionPlayerTwo(keyStrokeChar);
                     }
-
                 } else {
-                    System.out.println("type: " + keyType);
-                    //call the Mask class and see if the direction should change
+                    //Player one uses arrow keys to change direction of the mask
                     mask1.changeDirectionPlayerOne(keyType);
                 }
             }
 
-            mask2.setDirection();
+
 
             if(twoPlayers){
                 continuePlaying=mask1.moveMaskForward(terminal, wallsLevel1, maskar)
@@ -124,6 +135,13 @@ public class Main {
             {
                 continuePlaying = mask1.moveMaskForward(terminal, wallsLevel1, maskar);
             }
+
+            //handle movement of the botMask
+            if(includeBot){
+                botMask.setDirection();
+                botMask.moveMaskForward(terminal, wallsLevel1, maskar);
+            }
+
             //check if the player wants to quit the game
             if (keyStrokeChar == Character.valueOf('q')) {
                 continuePlaying = false;
@@ -150,10 +168,12 @@ public class Main {
         terminal.close();
     }
 
+    //method to generate new number at a position that won't collide with any obstacle or mask
     public static void generateNewNumber(int value, Obstacles obstacles, Terminal terminal) throws IOException {
 
         Position numberPosition = null;
         boolean positionOk = false;
+        //loop until generated position is ok
         while(!positionOk) {
             positionOk = true;
             numberPosition = new Position(ThreadLocalRandom.current().nextInt(0, terminal.getTerminalSize().getColumns()-1), ThreadLocalRandom.current().nextInt(TOPOFPlAYINGFIELD, terminal.getTerminalSize().getRows()-1));
@@ -175,34 +195,46 @@ public class Main {
                         positionOk = false;
                         break;
                     }
-            }
-
+                }
             }
         }
 
-        //store the position of the next number
+        //store the generated position
         for(Mask mask: maskar) {
             mask.setNumberPosition(numberPosition);
         }
 
-        // printing numbers
+        // print number to screen
         terminal.setForegroundColor(WHITE);
         terminal.setCursorPosition(numberPosition.x, numberPosition.y);
         terminal.putCharacter((char)(value + '0'));
         terminal.flush();
     }
 
+
+    //method to update the score(s) shown at the top of the terminal. This method is called from the Mask class
     public static void updateScore(Terminal terminal) throws IOException {
-        score += Main.value *100*100/speed;
-        char[] scoreAsCharArray = ("" + score).toCharArray();
+
+        //update score for player one
+        char[] scoreAsCharArray = ("" + maskar.get(0).getScore()).toCharArray();
         //set cursor at top left corner with enough room left to print out the score
         terminal.setCursorPosition(terminal.getTerminalSize().getColumns()-6, 0);
-        terminal.setForegroundColor(new TextColor.RGB(255, 255, 255));
+        terminal.setForegroundColor(Main.PLAYERONE_COLOR);
         for(char c: scoreAsCharArray){
             terminal.putCharacter(c);
         }
-    }
 
+        //update score for player two (if we have two players)
+        if(Main.twoPlayers){
+            char[] scoreAsCharArray2 = ("" + maskar.get(1).getScore()).toCharArray();
+            //set cursor at top left corner, after "Points:"
+            terminal.setCursorPosition(9, 0);
+            terminal.setForegroundColor(Main.PLAYERTWO_COLOR);
+            for(char c: scoreAsCharArray2){
+                terminal.putCharacter(c);
+            }
+        }
+    }
 
 
 
